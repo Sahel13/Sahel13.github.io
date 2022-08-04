@@ -4,9 +4,9 @@ import { Link } from "gatsby"
 const NavigationBar = () => {
   return (
     <nav>
-      <div className="font-bold text-lg">
+      <h1 className="font-bold text-xl">
         <Link to="/">Sahel Mohammad Iqbal</Link>
-      </div>
+      </h1>
     </nav>
   )
 }

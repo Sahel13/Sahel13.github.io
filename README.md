@@ -3,6 +3,6 @@
 ## TODO:
 
 - [ ] Add a responsive navbar.
-- [ ] Move resume and preprints to the static folder from Google Drive.
+- [ ] Move preprints to the static folder from Google Drive.
 - [ ] Improve the looks of the website.
 - [ ] Add a projects section.

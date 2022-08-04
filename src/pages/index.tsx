@@ -2,6 +2,7 @@ import * as React from "react"
 import type { HeadFC } from "gatsby"
 import Layout from "../components/Layout"
 import Paper from "../components/Paper"
+import SectionHeader from "../components/SectionHeader"
 import Seo from "../components/Seo"
 import { StaticImage } from "gatsby-plugin-image"
 import { preprints } from "../data/preprints"
@@ -9,37 +10,41 @@ import { preprints } from "../data/preprints"
 const IndexPage = () => {
   return (
     <Layout>
-      <article id="about" className="my-6 md:grid md:grid-cols-5 md:gap-4">
-        <div className="md:col-span-2">
+      <section id="about" className="my-6">
+        <SectionHeader>About</SectionHeader>
+        <div className="md:grid md:grid-cols-5 md:gap-6">
           <StaticImage
             src="../images/profile_picture.jpg"
             alt="My profile picture."
+            loading="eager"
+            className="md:col-span-2 md:flex md:items-center"
+            objectFit="cover"
           />
+          <div className="md:col-span-3 md:py-4">
+            <p className="text-lg pt-8 md:pt-0">
+              I am an incoming PhD student at the Department of Electrical
+              Engineering and Automation at Aalto University, Finland. I
+              recently graduated from the National Institute of Science
+              Education and Research (NISER), Bhubaneswar with an Integrated
+              Master's degree in physics.
+            </p>
+            <p className="text-lg pt-4">
+              For academic details, see my{" "}
+              <a
+                href="/cv_sahelmiqbal.pdf"
+                target="_blank"
+                rel="noreferrer"
+                className="underline text-sky-700"
+              >
+                resume
+              </a>{" "}
+              (last updated on 1st July).
+            </p>
+          </div>
         </div>
-        <div className="md:col-span-3">
-          <p className="text-lg pt-8">
-            I am an incoming PhD student at the Department of Electrical
-            Engineering and Automation at Aalto University, Finland. I recently
-            graduated from the National Institute of Science Education and
-            Research (NISER), Bhubaneswar with an Integrated Master's degree in
-            physics.
-          </p>
-          <p className="text-lg pt-4">
-            For academic details, see my{" "}
-            <a
-              href="https://drive.google.com/file/d/151KZa2kCmV5w6-49x-61dKfYAFYiSfkn/view?usp=sharing"
-              target="_blank"
-              rel="noreferrer"
-              className="underline text-sky-700"
-            >
-              resume
-            </a>{" "}
-            (last updated on 1st June).
-          </p>
-        </div>
-      </article>
-      <article id="preprints" className="my-6">
-        <h2 className="text-3xl font-bold mb-4">Preprints</h2>
+      </section>
+      <section id="preprints" className="my-6">
+        <SectionHeader>Preprints</SectionHeader>
         {preprints.map((element) => (
           <Paper
             key={element.title}
@@ -49,7 +54,7 @@ const IndexPage = () => {
             link={element.link}
           />
         ))}
-      </article>
+      </section>
     </Layout>
   )
 }
