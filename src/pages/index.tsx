@@ -10,7 +10,7 @@ import { preprints } from "../data/preprints"
 const IndexPage = () => {
   return (
     <Layout>
-      <section id="about" className="my-6">
+      <section id="about">
         <SectionHeader>About</SectionHeader>
         <div className="md:grid md:grid-cols-5 md:gap-6">
           <StaticImage
