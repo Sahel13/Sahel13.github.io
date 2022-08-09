@@ -10,7 +10,7 @@ import { preprints } from "../data/preprints"
 const IndexPage = () => {
   return (
     <Layout>
-      <section id="about" className="my-6">
+      <section id="about" className="scroll-mt-20">
         <SectionHeader>About</SectionHeader>
         <div className="md:grid md:grid-cols-5 md:gap-6">
           <StaticImage
@@ -43,7 +43,7 @@ const IndexPage = () => {
           </div>
         </div>
       </section>
-      <section id="preprints" className="my-6">
+      <section id="preprints" className="my-6 scroll-mt-20">
         <SectionHeader>Preprints</SectionHeader>
         {preprints.map((element) => (
           <Paper
