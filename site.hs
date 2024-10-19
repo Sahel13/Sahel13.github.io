@@ -8,9 +8,9 @@ main = hakyll $ do
         route   idRoute
         compile copyFileCompiler
 
-    match "css/*" $ do
-        route   idRoute
-        compile compressCssCompiler
+    match "styles/*.scss" $ do
+        route $ setExtension "css"
+        compile compressScssCompiler
 
     match "index.md" $ do
         route   $ setExtension "html"
@@ -19,3 +19,15 @@ main = hakyll $ do
             >>= relativizeUrls
 
     match "templates/*" $ compile templateBodyCompiler
+
+-- | Compiler for SCSS.
+-- Requires the `sass` command line tool.
+-- Source : https://github.com/jjduhamel/blog/blob/master/site.hs
+compressScssCompiler :: Compiler (Item String)
+compressScssCompiler = do
+    fmap (fmap compressCss) $
+        getResourceString
+        >>= withItemBody (unixFilter "sass" [ "--stdin"
+                                            , "--style", "compressed"
+                                            , "--load-path", "./css"
+                                            ])
