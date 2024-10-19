@@ -1,7 +1,23 @@
-*,
-*::before,
-*::after {
+/* Fonts */
+@import 'fonts.scss';
+
+$base-font-size: 2rem;
+$line-height: 1.4;
+$serif: 'EB Garamond', serif;
+
+html {
   box-sizing: border-box;
+  font-family: $serif;
+  font-kerning: normal;
+  font-size: 10px;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
   margin: 0;
   padding: 0;
+}
+
+body {
+  font-size: $base-font-size;
 }
