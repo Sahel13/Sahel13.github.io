@@ -8,7 +8,7 @@ main = hakyll $ do
         route   idRoute
         compile copyFileCompiler
 
-    match "styles/*.scss" $ do
+    match "styles/main.scss" $ do
         route $ setExtension "css"
         compile compressScssCompiler
 
@@ -29,5 +29,5 @@ compressScssCompiler = do
         getResourceString
         >>= withItemBody (unixFilter "sass" [ "--stdin"
                                             , "--style", "compressed"
-                                            , "--load-path", "./css"
+                                            , "--load-path", "./styles"
                                             ])
