@@ -2,8 +2,14 @@
 import           Data.Monoid (mappend)
 import           Hakyll
 
+-- | Github Pages expects the website to be in `/docs`.
+myConfig :: Configuration
+myConfig = defaultConfiguration
+  { destinationDirectory = "docs"
+  }
+
 main :: IO ()
-main = hakyll $ do
+main = hakyllWith myConfig $ do
     match "images/*" $ do
         route   idRoute
         compile copyFileCompiler
