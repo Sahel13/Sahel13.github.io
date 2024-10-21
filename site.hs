@@ -14,6 +14,10 @@ main = hakyllWith myConfig $ do
         route   idRoute
         compile copyFileCompiler
 
+    match "files/*" $ do
+        route   idRoute
+        compile copyFileCompiler
+
     match "styles/main.scss" $ do
         route $ setExtension "css"
         compile compressScssCompiler

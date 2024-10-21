@@ -9,7 +9,7 @@ title: Sahel Iqbal
 
 Hey there! I am a second-year PhD student at Aalto University, Finland, where I work with Prof. [Simo Särkkä](https://users.aalto.fi/~ssarkka/). I'm broadly interested in probabilistic machine learning (ML) methods and adding inductive biases to ML models, and I enjoy developing and applying Bayesian inference techniques for applications in physical/dynamical systems. Specific research areas that I work on as part of my PhD include Bayesian experimental design and probabilistic solvers for differential equations.
 
-For academic details, see my [resume](/). For research-related queries, I can be contacted at sahel[dot]iqbal[at]aalto[dot]fi.
+For academic details, see my [resume](/files/cv_sahel_iqbal.pdf). For research-related queries, I can be contacted at sahel[dot]iqbal[at]aalto[dot]fi.
 
 *Website last updated on 19th October, 2024.*
 
