@@ -2,10 +2,7 @@ $base-font-size: 2.3rem;
 $line-height: 1.4;
 $serif: 'EB Garamond', serif;
 
-$bg1: #fff;
-$bg2: #eee;
-$fg1: #000;
-$fg2: #444;
+$background-color: #fffff8;
 $accent1: #d01137;
 $accent2: #fdecf0;
 
@@ -25,15 +22,13 @@ html {
 body {
   font-size: $base-font-size;
   line-height: $line-height;
-  background-color: #bg1;
-  color: #fg1;
+  background-color: $background-color;
   max-width: 84rem;
   margin: 0 auto;
   padding: 3rem 1.8rem 2rem;
 }
 
 h1, h2, h3 {
-  color: $fg1;
   font-size: 100%;
   font-style: normal;
   font-weight: 500;
