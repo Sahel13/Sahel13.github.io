@@ -1,20 +1,14 @@
 {-# LANGUAGE OverloadedStrings #-}
-import           Data.Monoid (mappend)
-import           Hakyll
+import Control.Monad (forM_)
+import Hakyll
 
--- | Github Pages expects the website to be in `/docs`.
+-- GitHub Pages expects the website to be in `/docs`.
 myConfig :: Configuration
-myConfig = defaultConfiguration
-  { destinationDirectory = "docs"
-  }
+myConfig = defaultConfiguration { destinationDirectory = "docs" }
 
 main :: IO ()
 main = hakyllWith myConfig $ do
-    match "images/*" $ do
-        route   idRoute
-        compile copyFileCompiler
-
-    match "files/*" $ do
+    forM_ ["images/*", "files/*"] $ \f -> match f $ do
         route   idRoute
         compile copyFileCompiler
 
@@ -30,7 +24,7 @@ main = hakyllWith myConfig $ do
 
     match "templates/*" $ compile templateBodyCompiler
 
--- | Compiler for SCSS.
+-- Compiler for SCSS.
 -- Requires the `sass` command line tool.
 -- Source : https://github.com/jjduhamel/blog/blob/master/site.hs
 compressScssCompiler :: Compiler (Item String)
