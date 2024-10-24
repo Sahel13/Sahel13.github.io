@@ -11,7 +11,7 @@ Hey there! I am a second-year PhD student at Aalto University, Finland, where I 
 
 For academic details, see my [resume](/files/cv_sahel_iqbal.pdf). For research-related queries, I can be contacted at sahel[dot]iqbal[at]aalto[dot]fi.
 
-*Website last updated on 19th October, 2024.*
+*Website last updated on 24th October, 2024.*
 
 ## Featured Publications
 - **Sahel Iqbal**, Hany Abdulsamad, Sara Pérez-Vieites, Simo Särkkä, Adrien Corenflos (2024). *Recursive Nested Filtering for Efficient Amortized Bayesian Experimental Design*. NeurIPS workshop on Bayesian Decision-making and Uncertainty. [arXiv](https://arxiv.org/abs/2409.05354). [Code](https://github.com/Sahel13/InsideOutNPF.jl).
