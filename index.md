@@ -16,7 +16,7 @@ Outside work, you're likely to find me at the gym, tinkering with various open s
 ## Featured Publications
 - **Sahel Iqbal**, Hany Abdulsamad, Sara Pérez-Vieites, Simo Särkkä, Adrien Corenflos (2024). *Recursive Nested Filtering for Efficient Amortized Bayesian Experimental Design*. NeurIPS workshop on Bayesian Decision-making and Uncertainty. [arXiv](https://arxiv.org/abs/2409.05354). [Code](https://github.com/Sahel13/InsideOutNPF.jl).
 - **Sahel Iqbal**, Adrien Corenflos, Simo Särkkä, Hany Abdulsamad (2024). *Nesting Particle Filters for Experimental Design in Dynamical Systems*. ICML. [arXiv](https://arxiv.org/abs/2402.07868). [Code](https://github.com/Sahel13/InsideOutSMC.jl).
-- **Sahel Iqbal**, Hany Abdulsamad, Tripp Cator, Ulisses Braga-Neto, Simo Särkkä (2024). *Parallel-in-Time Probabilistic Solutions for Time-Dependent Nonlinear Partial Differential Equations*. IEEE MLSP.
+- **Sahel Iqbal**, Hany Abdulsamad, Tripp Cator, Ulisses Braga-Neto, Simo Särkkä (2024). *Parallel-in-Time Probabilistic Solutions for Time-Dependent Nonlinear Partial Differential Equations*. IEEE MLSP. [Link](https://ieeexplore.ieee.org/abstract/document/10734739). [Code](https://github.com/hanyas/parallel-pde).
 - **Sahel Iqbal**, Subhankar Mishra (2023). *Neural Networks at a Fraction with Pruned Quaternions*. International Conference on Data Science & Management of Data. [Link](https://dl.acm.org/doi/10.1145/3570991.3570997). [Code](https://github.com/Sahel13/pruning_quaternions).
 
 ## Working Papers
