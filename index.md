@@ -2,23 +2,43 @@
 title: Sahel Iqbal
 description: Academic portfolio website of Sahel Iqbal.
 ---
+
 <div class="profile">
   <img alt="Profile picture." src="images/profile-pic.png" />
   <h1>Sahel Iqbal</h1>
-  [Github](https://github.com/Sahel13) | [Google Scholar](https://scholar.google.com/citations?user=KP7mJUgAAAAJ&hl=en) | [Twitter](https://x.com/sahel_iqbal)
 </div>
 
-Hey there! I am a second-year PhD student at Aalto University, Finland, where I work with Prof. [Simo Särkkä](https://users.aalto.fi/~ssarkka/). I'm broadly interested in probabilistic machine learning (ML) methods and adding inductive biases to ML models, and I enjoy developing and applying Bayesian inference techniques for applications in physical/dynamical systems. Specific research areas that I work on as part of my PhD include Bayesian experimental design and probabilistic solvers for differential equations.
+I'm Sahel Iqbal, a third-year PhD student at Aalto University, Finland, where I
+work with [Simo Särkkä](https://users.aalto.fi/~ssarkka/). My main
+research focus is on developing accurate and efficient Monte Carlo algorithms
+for reinforcement learning and Bayesian experimental design (BED). Recently, I
+have also developed an interest in how similar algorithms can be used for
+inference-time alignment of diffusion and large language models.
 
-For academic details, see my [resume](/files/cv_sahel_iqbal.pdf). For research-related queries, I can be contacted at sahel[dot]iqbal[at]aalto[dot]fi.
+For academic details, see my [resume](/files/cv_sahel_iqbal.pdf) and my [Google
+Scholar](https://scholar.google.com/citations?user=KP7mJUgAAAAJ&hl=en) profile.
+I can be contacted on [X](https://x.com/sahel_iqbal) and at my email
+sahel[dot]iqbal[at]aalto[dot]fi.
 
-Outside work, you're likely to find me at the gym, tinkering with various open source Haskell projects, or reading about politics. I also write occasionally, and a couple of articles that I wrote a while ago are available on a website that I built called [The Student Watch](https://sahel13.github.io/thestudentwatch).
+Outside work, my time is mostly taken up by reading, lifting weights, and
+writing JAX code. The projects that I'm actively working on are available on
+[GitHub](https://github.com/Sahel13).
+
+## Recent News
+
+- **2025-07**: If you're attending [MCM
+  2025](https://ccbatiit.github.io/mcm2025/), my coauthor [Adrien
+  Corenflos](https://adriencorenflos.github.io/) will be giving a talk on our
+  joint work on BED.
+- **2025-06**: I will be giving a talk on using particle filters for BED at the
+  _[Accelerating statistical inference and experimental design with machine
+  learning workshop](https://www.newton.ac.uk/event/rclw03/)_ at the Isaac Newton
+  Institute for Mathematical Sciences.
+- **2024-12**: Presented a poster at the [Bayesian Decision-making and
+  Uncertainty workshop](https://gp-seminar-series.github.io/neurips-2024/) at
+  NeurIPS 2024 in Vancouver.
 
 ## Featured Publications
-- **Sahel Iqbal**, Hany Abdulsamad, Sara Pérez-Vieites, Simo Särkkä, Adrien Corenflos (2024). *Recursive Nested Filtering for Efficient Amortized Bayesian Experimental Design*. NeurIPS workshop on Bayesian Decision-making and Uncertainty. [arXiv](https://arxiv.org/abs/2409.05354). [Code](https://github.com/Sahel13/InsideOutNPF.jl).
-- **Sahel Iqbal**, Adrien Corenflos, Simo Särkkä, Hany Abdulsamad (2024). *Nesting Particle Filters for Experimental Design in Dynamical Systems*. ICML. [arXiv](https://arxiv.org/abs/2402.07868). [Code](https://github.com/Sahel13/InsideOutSMC.jl).
-- **Sahel Iqbal**, Hany Abdulsamad, Tripp Cator, Ulisses Braga-Neto, Simo Särkkä (2024). *Parallel-in-Time Probabilistic Solutions for Time-Dependent Nonlinear Partial Differential Equations*. IEEE MLSP. [Link](https://ieeexplore.ieee.org/abstract/document/10734739). [Code](https://github.com/hanyas/parallel-pde).
-- **Sahel Iqbal**, Subhankar Mishra (2023). *Neural Networks at a Fraction with Pruned Quaternions*. International Conference on Data Science & Management of Data. [Link](https://dl.acm.org/doi/10.1145/3570991.3570997). [Code](https://github.com/Sahel13/pruning_quaternions).
 
-## Working Papers
-- Hany Abdulsamad, **Sahel Iqbal**, Adrien Corenflos, Simo Särkkä (2023). *Risk-Sensitive Stochastic Optimal Control as Rao-Blackwellized Markovian Score Climbing*. [arXiv](https://arxiv.org/abs/2312.14000). [Code](https://github.com/hanyas/psoc).
+- **Sahel Iqbal**, Hany Abdulsamad, Sara Pérez-Vieites, Simo Särkkä, Adrien Corenflos (2024). _Recursive Nested Filtering for Efficient Amortized Bayesian Experimental Design_. NeurIPS workshop on Bayesian Decision-making and Uncertainty. [arXiv](https://arxiv.org/abs/2409.05354). [Code](https://github.com/Sahel13/InsideOutNPF.jl).
+- **Sahel Iqbal**, Adrien Corenflos, Simo Särkkä, Hany Abdulsamad (2024). _Nesting Particle Filters for Experimental Design in Dynamical Systems_. ICML. [arXiv](https://arxiv.org/abs/2402.07868). [Code](https://github.com/Sahel13/InsideOutSMC.jl).
