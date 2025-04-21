@@ -1,5 +1,6 @@
 ---
 title: Sahel Iqbal
+description: Academic portfolio website of Sahel Iqbal.
 ---
 <div class="profile">
   <img alt="Profile picture." src="images/profile-pic.png" />
