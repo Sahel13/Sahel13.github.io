@@ -1,4 +1,4 @@
-# Sahel13.github.io
+# My Personal Website
 
 Source code for my personal website. The website is generated using
 [Hakyll](https://jaspervdj.be/hakyll/index.html), a static site generator
@@ -9,7 +9,3 @@ by the following sources:
 - [Ayush Singh's blog](https://github.com/11DE784A/11DE784A.github.io).
 - [Tufte CSS](https://edwardtufte.github.io/tufte-css/).
 - [Gwern.net](https://gwern.net/).
-
-## Features
-
-- [KaTex](https://katex.org/) for rendering math equations. The implementation is taken from [Tony Zorman's blog post](https://tony-zorman.com/posts/katex-with-hakyll.html) on the subject. It uses [deno](https://deno.com/) to run KaTex.
