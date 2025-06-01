@@ -89,3 +89,7 @@ a {
     background: $accent2;
   }
 }
+
+.katex {
+  font-size: 1.0 * $base-font-size !important;
+}
