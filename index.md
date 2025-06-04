@@ -38,7 +38,22 @@ writing JAX code. The projects that I'm actively working on are available on
   Uncertainty workshop](https://gp-seminar-series.github.io/neurips-2024/) at
   NeurIPS 2024 in Vancouver.
 
+## Recent Posts
+
+$for(recentPosts)$
+
+<div class="post-item">
+  <p class="post-date">$date$</p>
+  <p class="post-description">
+    <span class="post-title"><a href="$url$">$title$</a></span> ---
+    $description$
+  </p>
+</div>
+
+$endfor$
+
 ## Featured Publications
 
-- **Sahel Iqbal**, Hany Abdulsamad, Sara Pérez-Vieites, Simo Särkkä, Adrien Corenflos (2024). _Recursive Nested Filtering for Efficient Amortized Bayesian Experimental Design_. NeurIPS workshop on Bayesian Decision-making and Uncertainty. [arXiv](https://arxiv.org/abs/2409.05354). [Code](https://github.com/Sahel13/InsideOutNPF.jl).
-- **Sahel Iqbal**, Adrien Corenflos, Simo Särkkä, Hany Abdulsamad (2024). _Nesting Particle Filters for Experimental Design in Dynamical Systems_. ICML. [arXiv](https://arxiv.org/abs/2402.07868). [Code](https://github.com/Sahel13/InsideOutSMC.jl).
+**Sahel Iqbal**, Hany Abdulsamad, Sara Pérez-Vieites, Simo Särkkä, Adrien Corenflos (2024). _Recursive Nested Filtering for Efficient Amortized Bayesian Experimental Design_. NeurIPS workshop on Bayesian Decision-making and Uncertainty. [arXiv](https://arxiv.org/abs/2409.05354). [Code](https://github.com/Sahel13/InsideOutNPF.jl).
+
+**Sahel Iqbal**, Adrien Corenflos, Simo Särkkä, Hany Abdulsamad (2024). _Nesting Particle Filters for Experimental Design in Dynamical Systems_. ICML. [arXiv](https://arxiv.org/abs/2402.07868). [Code](https://github.com/Sahel13/InsideOutSMC.jl).

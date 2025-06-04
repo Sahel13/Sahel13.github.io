@@ -36,12 +36,7 @@ main = hakyllWith myConfig $ do
     route idRoute
     compile copyFileCompiler
 
-  match "index.md" $ do
-    route $ setExtension "html"
-    compile $
-      pandocCompiler
-        >>= loadAndApplyTemplate "templates/default.html" defaultContext
-        >>= relativizeUrls
+  match "templates/*" $ compile templateBodyCompiler
 
   -- Citations
   match "bib/american-statistical-association.csl" $ compile cslCompiler
@@ -55,7 +50,17 @@ main = hakyllWith myConfig $ do
         >>= loadAndApplyTemplate "templates/default.html" defaultContext
         >>= relativizeUrls
 
-  match "templates/*" $ compile templateBodyCompiler
+  match "index.md" $ do
+    route $ setExtension "html"
+    compile $ do
+      -- Load the latest 3 posts to show on the homepage.
+      posts <- fmap (take 3) . recentFirst =<< loadAll "posts/*"
+      let postsCtx = listField "recentPosts" defaultContext (return posts) <> defaultContext
+      getResourceBody
+        >>= applyAsTemplate postsCtx
+        >>= renderPandoc
+        >>= loadAndApplyTemplate "templates/default.html" defaultContext
+        >>= relativizeUrls
 
 myPandocCompiler :: Compiler (Item String)
 myPandocCompiler =
