@@ -16,6 +16,17 @@
     <meta name="description" content="$description$" />
   </head>
   <body>
+    <!--
+    Check if the `date` field is present in the metadata to determine if the page is
+    a post or not.  A bit of a hack, but it works.
+    -->
+    $if(date)$
+    <header>
+      <nav>
+        <a href="/">Home</a>
+      </nav>
+    </header>
+    $endif$
     <main role="main">
       $body$
     </main>
