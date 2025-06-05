@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="/styles/main.css" />
-    <link rel="stylesheet" type="text/css" href="/styles/katex.css" />
+    <link rel="stylesheet" href="/styles/katex.css" />
     <link rel="shortcut icon" type="image/png" href="/images/favicon.ico" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,12 +14,24 @@
 
     <title>$title$</title>
     <meta name="description" content="$description$" />
-  </head>
-  <body>
+
+    <!-- Meta tags for social media -->
+    <meta property="og:title" content="$title$" />
+    <meta property="og:description" content="$description$" />
+    <meta property="og:url" content="$url$" />
+    <meta property="og:site_name" content="Sahel Iqbal" />
+    <meta name="twitter:card" content="summary" />
     <!--
     Check if the `date` field is present in the metadata to determine if the page is
     a post or not.  A bit of a hack, but it works.
     -->
+    $if(date)$
+    <meta property="og:type" content="article" />
+    $else$
+    <meta property="og:type" content="website" />
+    $endif$
+  </head>
+  <body>
     $if(date)$
     <header>
       <nav>
