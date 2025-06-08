@@ -40,7 +40,7 @@ It turns out the answer is yes. In @bernardo1979expected, José M. Bernardo, a s
 Lindley, gave a justification for the EIG grounded in decision theory. He showed
 that the EIG arises naturally from a decision problem under reasonable
 assumptions on the utility function. I find this result extremely remarkable,
-and this is an appreciation post about half-a-century later :)
+and this is an appreciation post about a half-century later :)
 
 ## The Decision-Theoretic Setup
 
