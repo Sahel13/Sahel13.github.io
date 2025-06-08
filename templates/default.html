@@ -18,8 +18,9 @@
     <!-- Meta tags for social media -->
     <meta property="og:title" content="$title$" />
     <meta property="og:description" content="$description$" />
-    <meta property="og:url" content="$url$" />
     <meta property="og:site_name" content="Sahel Iqbal" />
+
+    <meta property="og:image" content="https://sahel13.github.io/images/site_image.png" />
     <meta name="twitter:card" content="summary" />
     <!--
     Check if the `date` field is present in the metadata to determine if the page is
@@ -27,8 +28,10 @@
     -->
     $if(date)$
     <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://sahel13.github.io$url$" />
     $else$
     <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://sahel13.github.io" />
     $endif$
   </head>
   <body>
