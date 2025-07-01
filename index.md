@@ -30,7 +30,7 @@ writing JAX code. The projects that I'm actively working on are available on
   2025](https://ccbatiit.github.io/mcm2025/), my coauthor [Adrien
   Corenflos](https://adriencorenflos.github.io/) will be giving a talk on our
   joint work on BED.
-- **2025-06**: I will be giving a talk on using particle filters for BED at the
+- **2025-06**: Gave a talk on using particle filters for amortized BED at the
   _[Accelerating statistical inference and experimental design with machine
   learning workshop](https://www.newton.ac.uk/event/rclw03/)_ at the Isaac Newton
   Institute for Mathematical Sciences.
@@ -38,7 +38,7 @@ writing JAX code. The projects that I'm actively working on are available on
   Uncertainty workshop](https://gp-seminar-series.github.io/neurips-2024/) at
   NeurIPS 2024 in Vancouver.
 
-## Recent Posts
+## Posts
 
 $for(recentPosts)$
 
