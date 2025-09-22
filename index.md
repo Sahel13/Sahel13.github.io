@@ -26,6 +26,9 @@ writing JAX code. The projects that I'm actively working on are available on
 
 ## Recent News
 
+- **2025-09**: Our paper [Sequential Monte Carlo for Policy Optimization in
+  Continuous POMDPs](https://arxiv.org/abs/2505.16732) has been accepted to
+  NeurIPS 2025!
 - **2025-07**: If you're attending [MCM
   2025](https://ccbatiit.github.io/mcm2025/), my coauthor [Adrien
   Corenflos](https://adriencorenflos.github.io/) will be giving a talk on our
@@ -53,6 +56,13 @@ $for(recentPosts)$
 $endfor$
 
 ## Featured Publications
+
+_* denotes equal contribution._
+
+Hany Abdulsamad\*, **Sahel Iqbal**\*, Simo Särkkä (2025). _Sequential Monte
+Carlo for Policy Optimization in Continuous POMDPs_. NeurIPS.
+[arXiv](https://arxiv.org/abs/2505.16732).
+[Code](https://github.com/Sahel13/particle-pomdp/).
 
 **Sahel Iqbal**, Hany Abdulsamad, Sara Pérez-Vieites, Simo Särkkä, Adrien Corenflos (2024). _Recursive Nested Filtering for Efficient Amortized Bayesian Experimental Design_. NeurIPS workshop on Bayesian Decision-making and Uncertainty. [arXiv](https://arxiv.org/abs/2409.05354). [Code](https://github.com/Sahel13/InsideOutNPF.jl).
 
