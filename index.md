@@ -60,10 +60,27 @@ $endfor$
 _* denotes equal contribution._
 
 Hany Abdulsamad\*, **Sahel Iqbal**\*, Simo Särkkä (2025). _Sequential Monte
-Carlo for Policy Optimization in Continuous POMDPs_. NeurIPS.
+Carlo for policy optimization in continuous POMDPs_. NeurIPS.
 [arXiv](https://arxiv.org/abs/2505.16732).
 [Code](https://github.com/Sahel13/particle-pomdp/).
 
-**Sahel Iqbal**, Hany Abdulsamad, Sara Pérez-Vieites, Simo Särkkä, Adrien Corenflos (2024). _Recursive Nested Filtering for Efficient Amortized Bayesian Experimental Design_. NeurIPS workshop on Bayesian Decision-making and Uncertainty. [arXiv](https://arxiv.org/abs/2409.05354). [Code](https://github.com/Sahel13/InsideOutNPF.jl).
+Mahdi Nasiri, **Sahel Iqbal**, Simo Särkkä (2025). _Physics-informed machine
+learning for grade prediction in froth flotation_. Minerals Engineering.
+[Link](https://www.sciencedirect.com/science/article/pii/S0892687525001256).
 
-**Sahel Iqbal**, Adrien Corenflos, Simo Särkkä, Hany Abdulsamad (2024). _Nesting Particle Filters for Experimental Design in Dynamical Systems_. ICML. [arXiv](https://arxiv.org/abs/2402.07868). [Code](https://github.com/Sahel13/InsideOutSMC.jl).
+**Sahel Iqbal**, Hany Abdulsamad, Sara Pérez-Vieites, Simo Särkkä, Adrien
+Corenflos (2024). _Recursive nested filtering for efficient amortized Bayesian
+experimental design_. NeurIPS workshop on Bayesian Decision-making and
+Uncertainty. [arXiv](https://arxiv.org/abs/2409.05354).
+[Code](https://github.com/Sahel13/InsideOutNPF.jl).
+
+**Sahel Iqbal**, Hany Abdulsamad, Tripp Cator, Ulisses Braga-Neto, Simo Särkkä
+(2024). _Parallel-in-time probabilistic solutions for time-dependent nonlinear
+partial differential equations_. IEEE MLSP.
+[Link](https://ieeexplore.ieee.org/document/10734739).
+[Code](https://github.com/hanyas/parallel-pde).
+
+**Sahel Iqbal**, Adrien Corenflos, Simo Särkkä, Hany Abdulsamad (2024). _Nesting
+Particle filters for experimental design in dynamical systems_. ICML.
+[arXiv](https://arxiv.org/abs/2402.07868).
+[Code](https://github.com/Sahel13/InsideOutSMC.jl).
