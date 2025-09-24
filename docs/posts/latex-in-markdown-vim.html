@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="../styles/main.css" />
+    <link rel="stylesheet" href="../styles/katex.css" />
+    <link rel="stylesheet" href="../styles/syntax.css" />
+    <link rel="shortcut icon" type="image/png" href="../images/favicon.ico" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+
+    <title>Using LaTeX Snippets in Markdown Files in Neovim</title>
+    <meta name="description" content="I frequently write notes in Markdown using in Neovim, and a lot of the notes contain math. Unfortunately, all of my handy-dandy LaTeX snippets that I've created with [LuaSnip](https://github.com/L3MON4D3/LuaSnip) do not work in markdown files. In this post, I document how I got the snippets working in markdown files." />
+
+    <!-- Meta tags for social media -->
+    <meta property="og:title" content="Using LaTeX Snippets in Markdown Files in Neovim" />
+    <meta property="og:description" content="I frequently write notes in Markdown using in Neovim, and a lot of the notes contain math. Unfortunately, all of my handy-dandy LaTeX snippets that I've created with [LuaSnip](https://github.com/L3MON4D3/LuaSnip) do not work in markdown files. In this post, I document how I got the snippets working in markdown files." />
+    <meta property="og:site_name" content="Sahel Iqbal" />
+
+    <meta property="og:image" content="https://sahel13.github.io/images/site_image.png" />
+    <meta name="twitter:card" content="summary" />
+    <!--
+    Check if the `date` field is present in the metadata to determine if the page is
+    a post or not.  A bit of a hack, but it works.
+    -->
+    
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://sahel13.github.io/posts/latex-in-markdown-vim.html" />
+    
+  </head>
+  <body>
+    
+    <header>
+      <nav>
+        <a href="../">Home</a>
+      </nav>
+    </header>
+    
+    <main role="main">
+      <article>
+    <h1>Using LaTeX Snippets in Markdown Files in Neovim</h1>
+    <p class="post-subheading">Published on 2025-09-23.</p>
+    <p>I frequently write notes in Markdown using Neovim, and many of those notes
+contain math. Unfortunately, all of my handy LaTeX snippets created with
+<a href="https://github.com/L3MON4D3/LuaSnip">LuaSnip</a> don’t work in Markdown, which
+makes it a pain to write anything beyond the simplest equations. In this post, I
+document how I got my snippets working in Markdown.</p>
+<h2 id="basic-setup">Basic Setup</h2>
+<p>The first step is to tell LuaSnip to load LaTeX snippets in Markdown files. This
+saves us from having to duplicate all our LaTeX snippets. Since I use
+<a href="https://github.com/folke/lazy.nvim">lazy.nvim</a> as my package manager, I just
+had to tweak the <code>config</code> function like this:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode lua"><code class="sourceCode lua"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="va">config</span> <span class="op">=</span> <span class="kw">function</span><span class="op">()</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">local</span> <span class="va">ls</span> <span class="op">=</span> <span class="fu">require</span><span class="op">(</span><span class="st">&quot;luasnip&quot;</span><span class="op">)</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="va">ls</span><span class="op">.</span><span class="va">config</span><span class="op">.</span>set_config<span class="op">({</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">...</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="op">})</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- Make TeX snippets available in markdown</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="va">ls</span><span class="op">.</span>filetype_extend<span class="op">(</span><span class="st">&quot;markdown&quot;</span><span class="op">,</span> <span class="op">{</span> <span class="st">&quot;tex&quot;</span> <span class="op">})</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="op">...</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span><span class="op">,</span></span></code></pre></div>
+<p>It turns out that this is all we need to get basic snippet functionality
+working. However, many of my snippets use <a href="https://ejmastnak.com/tutorials/vim-latex/luasnip/#conditional-snippet-expansion">conditional
+expansion</a>,
+with snippets only expanding if the cursor is inside a math environment. For
+example, typing <code>ff</code> automatically expands to <code>\frac{}{}</code> when I’m inside dollar
+signs or an <code>align</code> environment, but it won’t expand when I type ‘affirm’ or
+‘puff’ in normal text. Since a lot of my go-to snippets rely on this, that’s the
+next thing I set up.</p>
+<h2 id="conditional-expansion-in-math-environments">Conditional Expansion in Math Environments</h2>
+<p>When I write LaTeX files, I rely on a package called
+<a href="https://github.com/lervag/vimtex/issues/2395">VimTex</a> for syntax highlighting
+and a bunch of other useful features. One of its perks is that it can detect
+math environments, which we can use as a condition for snippet expansion with
+the following Lua function (see the article by
+<a href="https://ejmastnak.com/tutorials/vim-latex/luasnip/#context-specific-expansion-for-latex">ejmastnak</a>
+for more details):</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode lua"><code class="sourceCode lua"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="va">tex_utils</span><span class="op">.</span><span class="va">in_math</span> <span class="op">=</span> <span class="kw">function</span><span class="op">()</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- This function requires the VimTeX plugin.</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="va">vim</span><span class="op">.</span><span class="va">fn</span><span class="op">[</span><span class="st">&quot;vimtex#syntax#in_mathzone&quot;</span><span class="op">]()</span> <span class="op">==</span> <span class="dv">1</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div>
+<p>But VimTeX is a filetype-specific plugin, so it only loads for <code>.tex</code> files. To
+get the same functionality in Markdown, we need to create a
+<code>nvim/after/syntax/markdown.vim</code> file with the following contents:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode txt"><code class="sourceCode default"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>&quot; From https://github.com/lervag/vimtex/issues/2395</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>if exists('b:current_syntax')</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  unlet b:current_syntax</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>endif</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>syn include @tex syntax/tex.vim</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>syn region markdownMath start=&quot;\\\@&lt;!\$&quot; end=&quot;\$&quot; skip=&quot;\\\$&quot; contains=@tex keepend</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>syn region markdownMath start=&quot;\\\@&lt;!\$\$&quot; end=&quot;\$\$&quot; skip=&quot;\\\$&quot; contains=@tex keepend</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>let b:current_syntax = 'markdown'</span></code></pre></div>
+<p>This snippet first clears any existing Markdown syntax settings, then tells
+Neovim to pull in LaTeX syntax rules from <code>syntax/tex.vim</code> (provided by VimTeX).
+It defines <code>$...$</code> and <code>$$...$$</code> as math environments, so anything inside them
+gets highlighted and treated like LaTeX math, even in a Markdown file.</p>
+<figure>
+<img src="../images/markdown-snippets.gif" alt="Conditional snippets in action in a Markdown file." />
+<figcaption aria-hidden="true">Conditional snippets in action in a Markdown file.</figcaption>
+</figure>
+<h2 id="bonus-for-vimwiki-users">Bonus for VimWiki Users</h2>
+<p>If you use <a href="https://github.com/vimwiki/vimwiki">VimWiki</a> for note-taking and
+also rely on the <code>&lt;Tab&gt;</code> key for snippet expansion, you’ll need to free up
+<code>&lt;Tab&gt;</code> in insert mode, since VimWiki already uses it for shortcuts. I solved
+this by adding the following autocommand for VimWiki:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode lua"><code class="sourceCode lua"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="va">config</span> <span class="op">=</span> <span class="kw">function</span><span class="op">()</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="va">vim</span><span class="op">.</span><span class="va">api</span><span class="op">.</span>nvim_create_autocmd<span class="op">(</span><span class="st">&quot;FileType&quot;</span><span class="op">,</span> <span class="op">{</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">pattern</span> <span class="op">=</span> <span class="st">&quot;vimwiki&quot;</span><span class="op">,</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">callback</span> <span class="op">=</span> <span class="kw">function</span><span class="op">()</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>      <span class="co">-- Disable &lt;Tab&gt; in insert mode.</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>      <span class="va">vim</span><span class="op">.</span><span class="va">keymap</span><span class="op">.</span>del<span class="op">(</span><span class="st">&quot;i&quot;</span><span class="op">,</span> <span class="st">&quot;&lt;Tab&gt;&quot;</span><span class="op">,</span> <span class="op">{</span> <span class="va">buffer</span> <span class="op">=</span> <span class="kw">true</span> <span class="op">})</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span><span class="op">,</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="op">})</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span><span class="op">,</span></span></code></pre></div>
+<h2 id="conclusion">Conclusion</h2>
+<p>That’s it, we’re all set! We’re now ready to give <a href="https://castel.dev/">Giles Castel</a>
+a run for his money in Markdown ;). That said, this setup is not perfect. The
+biggest limitation is that it only recognizes math environments defined with
+single or double dollar signs, so conditional snippets won’t work inside
+environments like <code>align</code>. This is not a huge deal for me though, since all
+serious math gets done in <code>.tex</code> files. If you’re curious, you can check out my
+full Neovim configuration
+<a href="https://github.com/Sahel13/Dotfiles/tree/main/.config/nvim">here</a>.</p>
+</article>
+
+    </main>
+  </body>
+</html>

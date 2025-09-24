@@ -137,6 +137,7 @@ article {
 .post-date {
   color: $date-accent;
   font-size: 2rem;
+  margin-top: 1.5rem;
 }
 
 .post-description {
@@ -151,4 +152,23 @@ article {
 header {
   display: flex;
   justify-content: flex-end;
+}
+
+.sourceCode {
+  font-size: 0.85 * $base-font-size;
+}
+
+code {
+  line-height: 0;
+}
+
+figure {
+  text-align: center;
+  margin-top: 3rem;
+
+  figcaption {
+    padding: 1rem 0 2rem 0;
+    text-align: center;
+    color: $date-accent;
+  }
 }
