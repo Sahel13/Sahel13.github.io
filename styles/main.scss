@@ -160,7 +160,11 @@ header {
 
 @media (max-width: 600px) {
   .sourceCode {
-    font-size: 0.65 * $base-font-size; /* slightly smaller on mobile */
+    font-size: 0.7 * $base-font-size; /* slightly smaller on mobile */
+  }
+
+  code {
+    font-size: 0.7 * $base-font-size;
   }
 }
 
