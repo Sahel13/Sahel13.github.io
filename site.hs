@@ -16,6 +16,8 @@ import Hakyll
 import System.Process (runInteractiveCommand)
 import Text.Pandoc.Builder (setMeta)
 import Text.Pandoc.Definition (Block (..), Inline (..), MathType (..), Pandoc)
+import Text.Pandoc.Highlighting (Style, pygments, styleToCss)
+import Text.Pandoc.Options (WriterOptions (..))
 import Text.Pandoc.Walk (walk, walkM)
 
 -- GitHub Pages expects the website to be in `/docs`.
@@ -50,6 +52,12 @@ main = hakyllWith myConfig $ do
         >>= loadAndApplyTemplate "templates/default.html" defaultContext
         >>= relativizeUrls
 
+  -- Syntax highlighting
+  create ["styles/syntax.css"] $ do
+    route idRoute
+    compile $ do
+      makeItem $ styleToCss pandocCodeStyle
+
   match "index.md" $ do
     route $ setExtension "html"
     compile $ do
@@ -62,11 +70,14 @@ main = hakyllWith myConfig $ do
         >>= loadAndApplyTemplate "templates/default.html" defaultContext
         >>= relativizeUrls
 
+pandocCodeStyle :: Style
+pandocCodeStyle = pygments
+
 myPandocCompiler :: Compiler (Item String)
 myPandocCompiler =
   pandocItemCompilerWithTransformM
     defaultHakyllReaderOptions
-    defaultHakyllWriterOptions
+    defaultHakyllWriterOptions { writerHighlightStyle = Just pandocCodeStyle }
     ( traverse hlKaTeX
         <=< processBib
     )

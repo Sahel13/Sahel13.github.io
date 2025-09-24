@@ -66,7 +66,7 @@ Carlo for policy optimization in continuous POMDPs_. NeurIPS.
 
 Mahdi Nasiri, **Sahel Iqbal**, Simo Särkkä (2025). _Physics-informed machine
 learning for grade prediction in froth flotation_. Minerals Engineering.
-[Link](https://www.sciencedirect.com/science/article/pii/S0892687525001256).
+[Link](https://doi.org/10.1016/j.mineng.2025.109297).
 
 **Sahel Iqbal**, Hany Abdulsamad, Sara Pérez-Vieites, Simo Särkkä, Adrien
 Corenflos (2024). _Recursive nested filtering for efficient amortized Bayesian
