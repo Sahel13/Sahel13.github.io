@@ -81,6 +81,6 @@ partial differential equations_. IEEE MLSP.
 [Code](https://github.com/hanyas/parallel-pde).
 
 **Sahel Iqbal**, Adrien Corenflos, Simo Särkkä, Hany Abdulsamad (2024). _Nesting
-Particle filters for experimental design in dynamical systems_. ICML.
+particle filters for experimental design in dynamical systems_. ICML.
 [arXiv](https://arxiv.org/abs/2402.07868).
 [Code](https://github.com/Sahel13/InsideOutSMC.jl).
