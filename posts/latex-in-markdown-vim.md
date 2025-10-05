@@ -1,6 +1,7 @@
 ---
 title: Using LaTeX Snippets in Markdown Files in Neovim
-description: I frequently write notes in Markdown using Neovim, and many of those notes contain math. Unfortunately, all of my handy LaTeX snippets created with [LuaSnip](https://github.com/L3MON4D3/LuaSnip) don't work in Markdown, which makes it a pain to write anything beyond the simplest equations. In this post, I document how I got my snippets working in Markdown.
+description: How I adapted my LuaSnip LaTeX snippets to work in Markdown for
+    easier math note-taking in Neovim.
 date: 2025-09-24
 ---
 
