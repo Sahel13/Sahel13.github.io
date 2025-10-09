@@ -13,7 +13,7 @@ work with [Simo Särkkä](https://users.aalto.fi/~ssarkka/). My main
 research focus is on developing accurate and efficient Monte Carlo algorithms
 for reinforcement learning and Bayesian experimental design (BED). Recently, I
 have also developed an interest in how similar algorithms can be used for
-inference-time alignment of diffusion and large language models.
+inference-time alignment of diffusion and [large language models](posts/steering-llms-with-smc.html).
 
 For academic details, see my [resume](/files/cv_sahel_iqbal.pdf) and my [Google
 Scholar](https://scholar.google.com/citations?user=KP7mJUgAAAAJ&hl=en) profile.
