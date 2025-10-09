@@ -138,7 +138,6 @@ hlKaTeX pandoc = recompilingUnsafeCompiler do
     macros =
       [ ("≔", "\\mathrel{\\vcenter{:}}="),
         ("\\defeq", "\\mathrel{\\vcenter{:}}="),
-        ("\\mapsto", "\\longmapsto"),
         ("\\cat", "\\mathcal"),
         ("\\kVect", "\\mathsf{Vect}_{\\mathtt{k}}")
       ]
