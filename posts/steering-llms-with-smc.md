@@ -5,7 +5,7 @@ date: 2025-10-09
 ---
 
 A good chunk of my work as part of my PhD involves using sequential Monte Carlo
-(SMC) methods to solve sequential decision-making problems. SMC algorithms are
+(SMC) methods to solve decision-making problems. SMC algorithms are
 used to efficiently sample from sequences of distributions, and while they are
 mostly used in physics, signal processing and Bayesian statistics, recently
 they have also found uses in inference-time alignment of generative models. In
@@ -33,13 +33,12 @@ $$
 ## Inference-Time Alignment of LLMs
 
 Inference-time alignment refers to modifying a pre-trained model’s sampling
-behavior without changing its parameters. Instead of fine-tuning the model weights,
-we operate directly on the distribution $\mathbb{P}_{T}$ it already
-defines, biasing it towards sequences that satisfy a reward or constraint.
-SMC algorithms provide a natural framework for this: by iteratively reweighting
-and resampling partial generations according to a reward function, we can steer
-the model’s output distribution toward the desired behavior while preserving
-stochasticity and diversity.
+behavior without changing its parameters. Instead of fine-tuning the model
+weights, we intervene at sampling time and adjust how likely the model is to
+pick certain continuations. Sequential Monte Carlo provides a natural
+framework for this: by iteratively reweighting and resampling partial
+generations based on a reward signal, we can nudge the model toward desired
+behaviors while retaining some of its inherent randomness and diversity.
 
 Formally, we specify our preferences through a sequence of reward functions
 
@@ -64,17 +63,17 @@ Sampling from $\mathbb{Q}_{T}$ is straightforward with SMC. The recipe is as
 follows, with steps 1 and 2 repeated for all $n \in \{1, \dots, N\}, N \in
 \mathbb{N}$:
 
-1. **Propose:** Sample a token $s_{t}^{n} \sim p(\cdot \mid s_{1:t-1}^{n})$.
+1. **Propose:** Sample a token $s_{t}^{n} \sim p(\cdot \mid s_{1:t-1}^{n})$ and append to sequence, $s_{1:t}^{n} = (s_{1:t-1}^{n}, s_{t}^{n})$.
 2. **Weight:** Compute unnormalized weight $w_{t}^{n} = \exp \{ \eta \cdot r_{t}(s_{1:t}^{n}) \}$, then normalize: $W_{t}^{n} = w_{t}^{n} / \sum_{m=1}^{N} w_{t}^{m}$.
 3. **Resample:** Draw $N$ new particles from $\{s_{1:t}^n\}_{n=1}^N$ with replacement, proportionally to $W_{t}^{n}$. (This duplicates the ‘sad’ phrases and prunes away overly cheerful ones.)
-4. **Repeat:** Grow sequences token by token.
+4. **Repeat:** Until $t = T$.
 
 Over time, the population of particles gradually concentrates on high-reward
 trajectories, in this case the sadder continuations.
 
 ## Sob Story Time
 
-To put theory into practice, I used
+To illustrate the method, I'm using
 [TinyStories-33M](https://huggingface.co/roneneldan/TinyStories-33M), a
 language model trained on short children’s stories [@eldan2023tinystories].
 Importantly, this model is **not** fine-tuned for sadness (or anything else),
@@ -111,8 +110,8 @@ regularizer forcing $Q$ to stay close to the base model $\mathbb{P}_{T}$. This
 regularization term prevents collapse into a small number of “super sad”
 trajectories, thus preserving diversity of model outputs.
 
-This perspective also makes clear the connection to reinforcement learning from
-human feedback [RLHF, @ziegler2020fine], where the same objective
+This optimization perspective also makes clear the connection to reinforcement
+learning from human feedback [RLHF, @ziegler2020fine], where the same objective
 $\mathcal{L}(Q)$ is minimized by fine-tuning the model weights. Here, we're
 skipping the optimization and directly sampling from the minimizer with SMC.
 
