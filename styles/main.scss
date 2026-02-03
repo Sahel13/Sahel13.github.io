@@ -161,7 +161,7 @@ header {
 }
 
 .sourceCode {
-  font-size: 0.85 * $base-font-size;
+  font-size: 0.8 * $base-font-size;
 }
 
 @media (max-width: 600px) {
@@ -176,6 +176,7 @@ header {
 
 code {
   line-height: 0;
+  font-size: 0.8 * $base-font-size;
 }
 
 figure {

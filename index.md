@@ -26,6 +26,8 @@ writing JAX code. The projects that I'm actively working on are available on
 
 ## Recent News
 
+- **2026-01**: We released a new JAX library for inference in state-space models
+  called `cuthbert`! Checkout the [tweet](https://x.com/sahel_iqbal/status/2017210852642803839?s=20) and the [code](https://github.com/state-space-models/cuthbert).
 - **2025-09**: Our paper [Sequential Monte Carlo for Policy Optimization in
   Continuous POMDPs](https://arxiv.org/abs/2505.16732) has been accepted to
   NeurIPS 2025!
