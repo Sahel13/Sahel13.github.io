@@ -49,6 +49,7 @@ main = hakyllWith myConfig $ do
     compile $
       myPandocCompiler
         >>= loadAndApplyTemplate "templates/post.html" defaultContext
+        >>= saveSnapshot "content"
         >>= loadAndApplyTemplate "templates/default.html" defaultContext
         >>= relativizeUrls
 
@@ -69,6 +70,13 @@ main = hakyllWith myConfig $ do
         >>= renderPandoc
         >>= loadAndApplyTemplate "templates/default.html" defaultContext
         >>= relativizeUrls
+
+  create ["atom.xml"] $ do
+    route idRoute
+    compile $ do
+      posts <- fmap (take 10) . recentFirst =<<
+          loadAllSnapshots "posts/*" "content"
+      renderAtom myFeedConfiguration (bodyField "description" <> defaultContext) posts
 
 pandocCodeStyle :: Style
 pandocCodeStyle = pygments
@@ -155,3 +163,12 @@ processBib pandoc = do
     insertRefHeading = walk $ concatMap \case
       d@(Div ("refs", _, _) _) -> [Header 2 ("references", [], []) [Str "References"], d]
       block -> [block]
+
+myFeedConfiguration :: FeedConfiguration
+myFeedConfiguration = FeedConfiguration
+    { feedTitle       = "Sahel Iqbal · Blog"
+    , feedDescription = "A blog about various technical topics that interest me."
+    , feedAuthorName  = "Sahel Iqbal"
+    , feedAuthorEmail = "sahel13miqba@proton.me"
+    , feedRoot        = "https://sahel13.github.io/"
+    }

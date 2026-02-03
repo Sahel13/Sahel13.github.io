@@ -153,6 +153,11 @@ article {
 header {
   display: flex;
   justify-content: flex-end;
+  nav {
+    a {
+      margin-left: 1rem;
+    }
+  }
 }
 
 .sourceCode {
