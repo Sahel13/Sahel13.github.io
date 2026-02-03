@@ -13,6 +13,7 @@ import qualified Data.Text as T
 import qualified Data.Text.IO as T
 import GHC.IO.Handle (BufferMode (NoBuffering), Handle, hSetBuffering)
 import Hakyll
+import News (loadNewsEntries, newsEntryContext)
 import System.Process (runInteractiveCommand)
 import Text.Pandoc.Builder (setMeta)
 import Text.Pandoc.Definition (Block (..), Inline (..), MathType (..), Pandoc)
@@ -40,6 +41,9 @@ main = hakyllWith myConfig $ do
 
   match "templates/*" $ compile templateBodyCompiler
 
+  match "news.md" $ do
+    compile getResourceBody
+
   -- Citations
   match "bib/american-statistical-association.csl" $ compile cslCompiler
   match "bib/bibliography.bib" $ compile biblioCompiler
@@ -64,9 +68,13 @@ main = hakyllWith myConfig $ do
     compile $ do
       -- Load the latest 3 posts to show on the homepage.
       posts <- fmap (take 3) . recentFirst =<< loadAll "posts/*"
-      let postsCtx = listField "recentPosts" defaultContext (return posts) <> defaultContext
+      newsEntries <- loadNewsEntries "news.md" 3
+      newsItems <- mapM makeItem newsEntries
+      let newsCtx = listField "recentNews" newsEntryContext (return newsItems)
+          postsCtx = listField "recentPosts" defaultContext (return posts)
+          ctx = newsCtx <> postsCtx <> defaultContext
       getResourceBody
-        >>= applyAsTemplate postsCtx
+        >>= applyAsTemplate ctx
         >>= renderPandoc
         >>= loadAndApplyTemplate "templates/default.html" defaultContext
         >>= relativizeUrls

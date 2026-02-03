@@ -5,6 +5,8 @@ cabal-version:      >= 1.10
 
 executable site
   main-is:          site.hs
+  hs-source-dirs:   src
+  other-modules:    News
   build-depends:    base == 4.*
                   , hakyll == 4.16.*
                   , text
