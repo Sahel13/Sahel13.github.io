@@ -26,7 +26,7 @@ myConfig = defaultConfiguration {destinationDirectory = "docs"}
 
 main :: IO ()
 main = hakyllWith myConfig $ do
-  forM_ ["images/*", "files/*"] $ \f -> match f $ do
+  match "images/*" $ do
     route idRoute
     compile copyFileCompiler
 
