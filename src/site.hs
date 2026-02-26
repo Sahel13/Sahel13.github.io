@@ -71,8 +71,20 @@ main = hakyllWith myConfig $ do
       newsEntries <- loadNewsEntries "news.md" 3
       newsItems <- mapM makeItem newsEntries
       let newsCtx = listField "recentNews" newsEntryContext (return newsItems)
-          postsCtx = listField "recentPosts" defaultContext (return posts)
+          postsCtx = listField "posts" defaultContext (return posts)
           ctx = newsCtx <> postsCtx <> defaultContext
+      getResourceBody
+        >>= applyAsTemplate ctx
+        >>= renderPandoc
+        >>= loadAndApplyTemplate "templates/default.html" defaultContext
+        >>= relativizeUrls
+
+  match "blog.md" $ do
+    route $ setExtension "html"
+    compile $ do
+      posts <- recentFirst =<< loadAll "posts/*"
+      let postsCtx = listField "posts" defaultContext (return posts)
+          ctx = postsCtx <> defaultContext
       getResourceBody
         >>= applyAsTemplate ctx
         >>= renderPandoc

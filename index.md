@@ -24,24 +24,18 @@ Outside work, my time is mostly taken up by reading, lifting weights, and
 writing JAX code. The projects that I'm actively working on are available on
 [GitHub](https://github.com/Sahel13).
 
+## Recent Posts
+
+$partial("templates/post-list.html")$
+
+<p class="all-articles-link">
+  <a href="/blog.html">All articles</a>
+</p>
+
 ## Recent News
 
 $for(recentNews)$
 - **$date$**: $body$
-$endfor$
-
-## Posts
-
-$for(recentPosts)$
-
-<div class="post-item">
-  <p class="post-date">$date$</p>
-  <p class="post-description">
-    <span class="post-title"><a href="$url$">$title$</a></span> ---
-    $description$
-  </p>
-</div>
-
 $endfor$
 
 ## Featured Publications
