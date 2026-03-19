@@ -1,8 +1,8 @@
 ---
 title: Blog
-description: All articles by publication date.
+description: Blog posts by Sahel Iqbal.
 ---
 
-# Posts
+# Blog
 
 $partial("templates/post-list.html")$
