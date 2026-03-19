@@ -1,5 +1,11 @@
+- 2026-03: Our paper [Maximin robust Bayesian experimental
+  design](https://arxiv.org/pdf/2603.14094v1) is now out on ArXiv. We propose a
+  worst-case decision-making rule for dealing with misspecified models in
+  Bayesian experimental design.
 - 2026-01: We released a new JAX library for inference in state-space models
-  called `cuthbert`! Checkout the [tweet](https://x.com/sahel_iqbal/status/2017210852642803839?s=20) and the [code](https://github.com/state-space-models/cuthbert).
+  called `cuthbert`! Checkout the
+  [tweet](https://x.com/sahel_iqbal/status/2017210852642803839?s=20) and the
+  [code](https://github.com/state-space-models/cuthbert).
 - 2025-09: Our paper [Sequential Monte Carlo for Policy Optimization in
   Continuous POMDPs](https://arxiv.org/abs/2505.16732) has been accepted to
   NeurIPS 2025!
