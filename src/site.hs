@@ -21,9 +21,9 @@ import Text.Pandoc.Highlighting (Style, pygments, styleToCss)
 import Text.Pandoc.Options (WriterOptions (..))
 import Text.Pandoc.Walk (walk, walkM)
 
--- GitHub Pages expects the website to be in `/docs`.
+-- Build the generated site into a disposable output directory.
 myConfig :: Configuration
-myConfig = defaultConfiguration {destinationDirectory = "docs"}
+myConfig = defaultConfiguration {destinationDirectory = "_site"}
 
 main :: IO ()
 main = hakyllWith myConfig $ do
@@ -158,7 +158,7 @@ compressScssCompiler = do
 -- KaTeX compiler for Pandoc from https://tony-zorman.com/posts/katex-with-hakyll.html
 hlKaTeX :: Pandoc -> Compiler Pandoc
 hlKaTeX pandoc = recompilingUnsafeCompiler do
-  (hin, hout, _, _) <- runInteractiveCommand "deno run scripts/math.ts"
+  (hin, hout, _, _) <- runInteractiveCommand "deno run --lock=deno.lock --frozen=true scripts/math.ts"
   hSetBuffering hin NoBuffering
   hSetBuffering hout NoBuffering
 
