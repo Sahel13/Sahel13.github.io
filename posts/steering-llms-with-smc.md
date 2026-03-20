@@ -3,6 +3,7 @@ title: Steering Language Models with Sequential Monte Carlo
 description: How to give your language model the blues with SMC.
 date: 2025-10-09
 image: steering-llms-with-smc.png
+tags: sequential-monte-carlo, machine-learning
 ---
 
 A good chunk of my work as part of my PhD involves using sequential Monte Carlo

@@ -19,7 +19,14 @@
     <updated>2026-03-20T00:00:00Z</updated>
     <summary type="html"><![CDATA[<article>
     <h1>Asynchronous Data Copies in CuTe DSL</h1>
-    <p class="post-subheading">Published on 2026-03-20.</p>
+    <div class="post-meta">
+        <p class="post-subheading">Published on 2026-03-20.</p>
+        
+        <div class="post-tags">
+            <a title="All pages tagged &#39;#programming&#39;." href="/tags/programming.html" rel="tag">#programming</a>
+        </div>
+        
+    </div>
     <p>I’ve always been interested in writing performant code, and recently I’ve been learning how to do that for NVIDIA GPUs. Specifically, I’ve been looking into <a href="https://docs.nvidia.com/cutlass/latest/media/docs/pythonDSL/cute_dsl_general/dsl_introduction.html">CuTe DSL</a>, which is a domain-specific language based on Python by NVIDIA. It offers a less verbose and slightly less complicated way to program GPUs compared to writing CUDA C++, but also is more expressive and powerful than Triton.</p>
 <p>My ultimate goal is to learn how to write something like <a href="https://arxiv.org/pdf/2603.05451v1">FlashAttention 4</a> in CuTe DSL. However, even a “simple” general matrix multiply (GEMM) kernel for an A100 is about 800 lines of code with many abstractions mixed in, and is difficult for me to grasp, despite the many examples provided on GitHub. The docs are also rather terse. So I thought I’d incrementally work up to complicated kernels, starting from a simple copy kernel to understand how to do asynchronous data copies (which are needed for the fancier kernels).</p>
 <p><strong>Prerequisites</strong>: I assume a basic familiarity with core GPU programming concepts (see, e.g., sections 1 and 2 of <a href="https://arxiv.org/pdf/2410.20399">ThunderKittens</a>), as well as some knowledge of CuTe DSL, at the level of the <a href="https://github.com/NVIDIA/cutlass/blob/main/examples/python/CuTeDSL/notebooks/elementwise_add.ipynb">elementwise-addition kernel</a> from the docs. Simon Veitner’s <a href="https://veitner.bearblog.dev/an-applied-introduction-to-cutedsl/">An applied introduction to CuTeDSL</a> and <a href="https://veitner.bearblog.dev/thread-value-layouts-in-cute/">Thread-value layouts in CuTe</a> are great supplements to that example.</p>
@@ -51,20 +58,19 @@
 <h2 id="host-code">Host code</h2>
 <p>We initialize the class by providing the number of rows we want in a tile (<code>tile_m</code>) and the number of threads in a thread block (<code>num_threads</code>). We also define a synchronization barrier for the thread block (<code>cta_sync_barrier</code>), where <code>cta</code> stands for “<a href="https://modal.com/gpu-glossary/device-software/cooperative-thread-array">Cooperative Thread Array</a>”, which is CUDA nomenclature for a thread block.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cutlass</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cutlass.cute <span class="im">as</span> cute</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cutlass.pipeline <span class="im">as</span> pipeline</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cutlass.pipeline <span class="im">as</span> pipeline</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> TensorCopyAsync:</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, tile_m: <span class="bu">int</span> <span class="op">=</span> <span class="dv">32</span>, num_threads: <span class="bu">int</span> <span class="op">=</span> <span class="dv">512</span>):</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> num_threads <span class="op">%</span> tile_m <span class="op">!=</span> <span class="dv">0</span>:</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">&quot;num_threads must be divisible by tile_m&quot;</span>)</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>._tile_m <span class="op">=</span> tile_m</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>._num_threads <span class="op">=</span> num_threads</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.cta_sync_barrier <span class="op">=</span> pipeline.NamedBarrier(</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>            barrier_id<span class="op">=</span><span class="dv">1</span>, num_threads<span class="op">=</span>num_threads</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        )</span></code></pre></div>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> TensorCopyAsync:</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, tile_m: <span class="bu">int</span> <span class="op">=</span> <span class="dv">32</span>, num_threads: <span class="bu">int</span> <span class="op">=</span> <span class="dv">512</span>):</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> num_threads <span class="op">%</span> tile_m <span class="op">!=</span> <span class="dv">0</span>:</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">&quot;num_threads must be divisible by tile_m&quot;</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>._tile_m <span class="op">=</span> tile_m</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>._num_threads <span class="op">=</span> num_threads</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.cta_sync_barrier <span class="op">=</span> pipeline.NamedBarrier(</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>            barrier_id<span class="op">=</span><span class="dv">1</span>, num_threads<span class="op">=</span>num_threads</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>        )</span></code></pre></div>
 <p>For the <code>__call__</code> method, we first calculate the size of the tile based on how many elements we want a single thread to move. Since a single copy instruction can move 32, 64, or 128 bits, here we choose 128, which corresponds to 128 // 16 = 8 elements per thread.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>    <span class="at">@cute.jit</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__call__</span>(<span class="va">self</span>, mSrc: cute.Tensor, mDst: cute.Tensor):</span>
@@ -164,7 +170,14 @@
     <updated>2025-10-09T00:00:00Z</updated>
     <summary type="html"><![CDATA[<article>
     <h1>Steering Language Models with Sequential Monte Carlo</h1>
-    <p class="post-subheading">Published on 2025-10-09.</p>
+    <div class="post-meta">
+        <p class="post-subheading">Published on 2025-10-09.</p>
+        
+        <div class="post-tags">
+            <a title="All pages tagged &#39;#sequential-monte-carlo&#39;." href="/tags/sequential-monte-carlo.html" rel="tag">#sequential-monte-carlo</a> <a title="All pages tagged &#39;#machine-learning&#39;." href="/tags/machine-learning.html" rel="tag">#machine-learning</a>
+        </div>
+        
+    </div>
     <p>A good chunk of my work as part of my PhD involves using sequential Monte Carlo
 (SMC) methods to solve decision-making problems. SMC algorithms are
 used to efficiently sample from sequences of distributions, and while they are
@@ -277,7 +290,14 @@ Ziegler, D. M., Stiennon, N., Wu, J., Brown, T. B., Radford, A., Amodei, D., Chr
     <updated>2025-09-24T00:00:00Z</updated>
     <summary type="html"><![CDATA[<article>
     <h1>Using LaTeX Snippets in Markdown Files in Neovim</h1>
-    <p class="post-subheading">Published on 2025-09-24.</p>
+    <div class="post-meta">
+        <p class="post-subheading">Published on 2025-09-24.</p>
+        
+        <div class="post-tags">
+            <a title="All pages tagged &#39;#neovim&#39;." href="/tags/neovim.html" rel="tag">#neovim</a> <a title="All pages tagged &#39;#latex&#39;." href="/tags/latex.html" rel="tag">#latex</a>
+        </div>
+        
+    </div>
     <p>I frequently write notes in Markdown using Neovim, and many of those notes
 contain math. Unfortunately, all of my handy LaTeX snippets created with
 <a href="https://github.com/L3MON4D3/LuaSnip">LuaSnip</a> don’t work in Markdown, which
@@ -375,7 +395,14 @@ full Neovim configuration
     <updated>2025-06-08T00:00:00Z</updated>
     <summary type="html"><![CDATA[<article>
     <h1>Expected Information as Expected Utility</h1>
-    <p class="post-subheading">Published on 2025-06-08.</p>
+    <div class="post-meta">
+        <p class="post-subheading">Published on 2025-06-08.</p>
+        
+        <div class="post-tags">
+            <a title="All pages tagged &#39;#bayesian-experimental-design&#39;." href="/tags/bayesian-experimental-design.html" rel="tag">#bayesian-experimental-design</a>
+        </div>
+        
+    </div>
     <p>Imagine a scientist planning a clinical trial to determine the optimal dosage of a new diabetes
 drug. Due to constraints on budget and patient safety, only a limited number of tests can be
 conducted, so the scientist must decide which dosage levels to test to most

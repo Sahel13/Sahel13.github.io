@@ -7,7 +7,7 @@
 {-# LANGUAGE ViewPatterns #-}
 
 import Control.Monad (forM_, (<=<))
-import Data.List (foldl')
+import Data.List (foldl', intersperse)
 import Data.Text (Text)
 import qualified Data.Text as T
 import qualified Data.Text.IO as T
@@ -44,6 +44,9 @@ main = hakyllWith myConfig $ do
   match "news.md" $ do
     compile getResourceBody
 
+  tags <- buildTags "posts/*" (fromCapture "tags/*.html")
+  let postPageCtx = postContext tags
+
   -- Citations
   match "bib/american-statistical-association.csl" $ compile cslCompiler
   match "bib/bibliography.bib" $ compile biblioCompiler
@@ -52,9 +55,9 @@ main = hakyllWith myConfig $ do
     route $ setExtension "html"
     compile $
       myPandocCompiler
-        >>= loadAndApplyTemplate "templates/post.html" defaultContext
+        >>= loadAndApplyTemplate "templates/post.html" postPageCtx
         >>= saveSnapshot "content"
-        >>= loadAndApplyTemplate "templates/default.html" defaultContext
+        >>= loadAndApplyTemplate "templates/default.html" postPageCtx
         >>= relativizeUrls
 
   -- Syntax highlighting
@@ -71,8 +74,8 @@ main = hakyllWith myConfig $ do
       newsEntries <- loadNewsEntries "news.md" 3
       newsItems <- mapM makeItem newsEntries
       let newsCtx = listField "recentNews" newsEntryContext (return newsItems)
-          postsCtx = listField "posts" defaultContext (return posts)
-          ctx = newsCtx <> postsCtx <> defaultContext
+          postListCtx = postListContext postPageCtx posts
+          ctx = newsCtx <> postListCtx <> defaultContext
       getResourceBody
         >>= applyAsTemplate ctx
         >>= renderPandoc
@@ -83,12 +86,27 @@ main = hakyllWith myConfig $ do
     route $ setExtension "html"
     compile $ do
       posts <- recentFirst =<< loadAll "posts/*"
-      let postsCtx = listField "posts" defaultContext (return posts)
-          ctx = postsCtx <> defaultContext
+      let postListCtx = postListContext postPageCtx posts
+          ctx = postListCtx <> defaultContext
       getResourceBody
         >>= applyAsTemplate ctx
         >>= renderPandoc
         >>= loadAndApplyTemplate "templates/default.html" defaultContext
+        >>= relativizeUrls
+
+  tagsRules tags $ \tag pattern -> do
+    route idRoute
+    compile $ do
+      posts <- recentFirst =<< loadAll pattern
+      let ctx =
+            constField "title" ("#" <> tag)
+              <> constField "tagTitle" ("#" <> tag)
+              <> constField "description" ("Posts tagged " <> tag <> ".")
+              <> postListContext postPageCtx posts
+              <> defaultContext
+      makeItem ""
+        >>= loadAndApplyTemplate "templates/tag.html" ctx
+        >>= loadAndApplyTemplate "templates/default.html" ctx
         >>= relativizeUrls
 
   create ["atom.xml"] $ do
@@ -96,7 +114,16 @@ main = hakyllWith myConfig $ do
     compile $ do
       posts <- fmap (take 10) . recentFirst =<<
           loadAllSnapshots "posts/*" "content"
-      renderAtom myFeedConfiguration (bodyField "description" <> defaultContext) posts
+      renderAtom myFeedConfiguration (bodyField "description" <> postPageCtx) posts
+
+postContext :: Tags -> Context String
+postContext tags =
+  dateField "date" "%Y-%m-%d"
+    <> tagsFieldWith getTags (simpleRenderLink . ("#" <>)) (mconcat . intersperse " ") "tags" tags
+    <> defaultContext
+
+postListContext :: Context String -> [Item String] -> Context String
+postListContext itemCtx posts = listField "posts" itemCtx (return posts)
 
 pandocCodeStyle :: Style
 pandocCodeStyle = pygments

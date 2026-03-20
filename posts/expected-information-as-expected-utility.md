@@ -2,6 +2,7 @@
 title: Expected Information as Expected Utility
 description: I discuss the article of the same name by José M. Bernardo from 1979, which shows that the expected information gain, a popular metric used in Bayesian experimental design, is itself a solution to a maximum expected utility problem under some assumptions on the utility function.
 date: 2025-06-08
+tags: bayesian-experimental-design
 ---
 
 Imagine a scientist planning a clinical trial to determine the optimal dosage of a new diabetes

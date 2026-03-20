@@ -1,5 +1,12 @@
 <article>
     <h1>$title$</h1>
-    <p class="post-subheading">Published on $date$.</p>
+    <div class="post-meta">
+        <p class="post-subheading">Published on $date$.</p>
+        $if(tags)$
+        <div class="post-tags">
+            $tags$
+        </div>
+        $endif$
+    </div>
     $body$
 </article>

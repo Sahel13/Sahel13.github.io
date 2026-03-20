@@ -2,6 +2,7 @@
 title: Asynchronous Data Copies in CuTe DSL
 description: Part 1 of a multi-part series on GPU kernel development with NVIDIA's CuTe domain-specific language.
 date: 2026-03-20
+tags: programming
 ---
 
 I've always been interested in writing performant code, and recently I've been learning how to do that for NVIDIA GPUs. Specifically, I've been looking into [[https://docs.nvidia.com/cutlass/latest/media/docs/pythonDSL/cute_dsl_general/dsl_introduction.html][CuTe DSL]], which is a domain-specific language based on Python by NVIDIA. It offers a less verbose and slightly less complicated way to program GPUs compared to writing CUDA C++, but also is more expressive and powerful than Triton.
@@ -48,7 +49,6 @@ We initialize the class by providing the number of rows we want in a tile (~tile
 
 #+begin_src python
 import cutlass
-import cutlass.cute as cute
 import cutlass.pipeline as pipeline
 
 

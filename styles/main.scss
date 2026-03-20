@@ -7,6 +7,8 @@ $text-color: #111;
 $accent1: #6A0DAD;
 $accent2: #E6E6FA;
 $date-accent: oklch(37.2% 0.044 257.287);
+$tag-background: #f3ecff;
+$tag-border: #d7c3ef;
 
 html {
   box-sizing: border-box;
@@ -145,12 +147,49 @@ article {
   margin-top: 0;
 }
 
+.post-meta {
+  margin-bottom: 2rem;
+}
+
+.post-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 0.8rem;
+}
+
+.post-tags a {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.9rem;
+  border: 1px solid $tag-border;
+  border-radius: 999px;
+  background: $tag-background;
+  font-size: 1.6rem;
+  line-height: 1.2;
+
+  &:link,
+  &:visited,
+  &:focus {
+    color: $accent1;
+  }
+
+  &:hover,
+  &:active {
+    background: $accent2;
+  }
+}
+
 .all-articles-link {
-  margin-top: 1.5rem;
+  margin-top: 2.0rem;
 }
 
 .post-subheading {
   font-size: 1.1 * $base-font-size;
+  color: $date-accent;
+}
+
+.tag-page-subheading {
   color: $date-accent;
 }
 
