@@ -76,7 +76,7 @@ main = hakyllWith myConfig $ do
       makeItem $
         compressCss $
           T.unpack $
-            scopeCss "html[data-theme=\"dark\"]" $
+            darkSyntaxCss $
               T.pack $
                 styleToCss darkPandocCodeStyle
 
@@ -217,6 +217,17 @@ scopeCss scope css = T.unlines (go [] (T.lines css))
         map (\selector -> scope <> " " <> T.strip selector) $
           filter (not . T.null . T.strip) $
             T.splitOn "," selectors
+
+darkSyntaxCss :: Text -> Text
+darkSyntaxCss css =
+  let darkScope = scopeCss "html[data-theme=\"dark\"]" css
+      systemDarkScope = scopeCss "html:not([data-theme])" css
+   in T.unlines
+        [ darkScope,
+          "@media (prefers-color-scheme: dark) {",
+          systemDarkScope,
+          "}"
+        ]
 
 -- KaTeX compiler for Pandoc from https://tony-zorman.com/posts/katex-with-hakyll.html
 hlKaTeX :: Pandoc -> Compiler Pandoc
