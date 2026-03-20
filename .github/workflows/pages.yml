@@ -29,7 +29,29 @@ jobs:
       - name: Set up Stack
         uses: haskell-actions/setup@v2
         with:
+          ghc-version: 9.6.6
           enable-stack: true
+
+      - name: Cache Stack dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.stack/programs
+            ~/.stack/snapshots
+            ~/.stack/indices
+            ~/.stack/pantry
+            ~/.stack/setup-exe-cache
+          key: ${{ runner.os }}-stack-deps-${{ hashFiles('stack.yaml', 'stack.yaml.lock', 'hakyll-site.cabal') }}
+          restore-keys: |
+            ${{ runner.os }}-stack-deps-
+
+      - name: Cache Stack build outputs
+        uses: actions/cache@v4
+        with:
+          path: .stack-work
+          key: ${{ runner.os }}-stack-work-${{ hashFiles('stack.yaml', 'stack.yaml.lock', 'hakyll-site.cabal') }}-${{ hashFiles('src/**/*.hs') }}
+          restore-keys: |
+            ${{ runner.os }}-stack-work-${{ hashFiles('stack.yaml', 'stack.yaml.lock', 'hakyll-site.cabal') }}-
 
       - name: Set up Deno
         uses: denoland/setup-deno@v2
@@ -47,9 +69,9 @@ jobs:
 
       - name: Build site
         run: |
-          stack build
-          stack exec site clean
-          stack exec site build
+          stack --system-ghc --no-install-ghc build
+          stack --system-ghc --no-install-ghc exec site clean
+          stack --system-ghc --no-install-ghc exec site build
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
