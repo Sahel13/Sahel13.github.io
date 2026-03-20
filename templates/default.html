@@ -4,8 +4,29 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <script>
+      (() => {
+        const root = document.documentElement;
+        const storageKey = "theme-preference";
+        const media = window.matchMedia("(prefers-color-scheme: dark)");
+        let theme = media.matches ? "dark" : "light";
+
+        root.dataset.js = "enabled";
+
+        try {
+          const savedTheme = localStorage.getItem(storageKey);
+          if (savedTheme === "light" || savedTheme === "dark") {
+            theme = savedTheme;
+          }
+        } catch (_) {}
+
+        root.dataset.theme = theme;
+      })();
+    </script>
+
     <link rel="stylesheet" href="/styles/katex.css" />
     <link rel="stylesheet" href="/styles/syntax.css" />
+    <link rel="stylesheet" href="/styles/syntax-dark.css" />
     <link rel="stylesheet" href="/styles/main.css" />
     <link rel="shortcut icon" type="image/png" href="/images/favicon.ico" />
 
@@ -45,9 +66,13 @@
         <a href="/blog.html">Blog</a>
         <a href="/atom.xml">Feed</a>
       </nav>
+      <button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">
+        Dark mode
+      </button>
     </header>
     <main role="main">
       $body$
     </main>
+    <script src="/scripts/theme.js"></script>
   </body>
 </html>

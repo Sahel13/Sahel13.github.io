@@ -7,7 +7,7 @@
 {-# LANGUAGE ViewPatterns #-}
 
 import Control.Monad (forM_, (<=<))
-import Data.List (foldl', intersperse)
+import Data.List (find, foldl', intersperse)
 import Data.Text (Text)
 import qualified Data.Text as T
 import qualified Data.Text.IO as T
@@ -17,7 +17,7 @@ import News (loadNewsEntries, newsEntryContext)
 import System.Process (runInteractiveCommand)
 import Text.Pandoc.Builder (setMeta)
 import Text.Pandoc.Definition (Block (..), Inline (..), MathType (..), Pandoc)
-import Text.Pandoc.Highlighting (Style, pygments, styleToCss)
+import Text.Pandoc.Highlighting (Style, highlightingStyles, pygments, styleToCss)
 import Text.Pandoc.Options (WriterOptions (..))
 import Text.Pandoc.Walk (walk, walkM)
 
@@ -28,6 +28,10 @@ myConfig = defaultConfiguration {destinationDirectory = "_site"}
 main :: IO ()
 main = hakyllWith myConfig $ do
   match "images/*" $ do
+    route idRoute
+    compile copyFileCompiler
+
+  match "scripts/theme.js" $ do
     route idRoute
     compile copyFileCompiler
 
@@ -65,6 +69,16 @@ main = hakyllWith myConfig $ do
     route idRoute
     compile $ do
       makeItem $ styleToCss pandocCodeStyle
+
+  create ["styles/syntax-dark.css"] $ do
+    route idRoute
+    compile $ do
+      makeItem $
+        compressCss $
+          T.unpack $
+            darkSyntaxCss $
+              T.pack $
+                styleToCss darkPandocCodeStyle
 
   match "index.md" $ do
     route $ setExtension "html"
@@ -128,6 +142,11 @@ postListContext itemCtx posts = listField "posts" itemCtx (return posts)
 pandocCodeStyle :: Style
 pandocCodeStyle = pygments
 
+darkPandocCodeStyle :: Style
+darkPandocCodeStyle =
+  maybe pygments snd $
+    find ((== "breezedark") . T.toLower . fst) highlightingStyles
+
 myPandocCompiler :: Compiler (Item String)
 myPandocCompiler =
   pandocItemCompilerWithTransformM
@@ -154,6 +173,61 @@ compressScssCompiler = do
               "./styles"
             ]
         )
+
+scopeCss :: Text -> Text -> Text
+scopeCss scope css = T.unlines (go [] (T.lines css))
+  where
+    go :: [Text] -> [Text] -> [Text]
+    go pending = \case
+      [] ->
+        flush pending
+      line : rest
+        | T.null stripped ->
+            go pending rest
+        | stripped == "}" ->
+            flush pending ++ [line] ++ go [] rest
+        | "{" `T.isInfixOf` line ->
+            [scopeRule (pending ++ [line])] ++ go [] rest
+        | otherwise ->
+            go (pending ++ [line]) rest
+        where
+          stripped = T.strip line
+
+    flush :: [Text] -> [Text]
+    flush [] = []
+    flush pending = [T.unwords (map T.strip pending)]
+
+    scopeRule :: [Text] -> Text
+    scopeRule ruleLines =
+      let rule = T.unwords (map T.strip ruleLines)
+          (selector, rest) = T.breakOn "{" rule
+          cleanedSelector = T.strip selector
+       in if T.null rest
+            then rule
+            else
+              (if "@" `T.isPrefixOf` cleanedSelector
+                 then cleanedSelector
+                 else scopeSelectors cleanedSelector)
+                <> " "
+                <> T.stripStart rest
+
+    scopeSelectors :: Text -> Text
+    scopeSelectors selectors =
+      T.intercalate ", " $
+        map (\selector -> scope <> " " <> T.strip selector) $
+          filter (not . T.null . T.strip) $
+            T.splitOn "," selectors
+
+darkSyntaxCss :: Text -> Text
+darkSyntaxCss css =
+  let darkScope = scopeCss "html[data-theme=\"dark\"]" css
+      systemDarkScope = scopeCss "html:not([data-theme])" css
+   in T.unlines
+        [ darkScope,
+          "@media (prefers-color-scheme: dark) {",
+          systemDarkScope,
+          "}"
+        ]
 
 -- KaTeX compiler for Pandoc from https://tony-zorman.com/posts/katex-with-hakyll.html
 hlKaTeX :: Pandoc -> Compiler Pandoc
