@@ -21,10 +21,11 @@
 
   const applyTheme = (theme) => {
     const isDark = theme === "dark";
+    const nextTheme = isDark ? "light" : "dark";
     root.dataset.theme = theme;
-    button.textContent = isDark ? "Light mode" : "Dark mode";
     button.setAttribute("aria-pressed", isDark ? "true" : "false");
-    button.setAttribute("aria-label", isDark ? "Switch to light mode" : "Switch to dark mode");
+    button.setAttribute("aria-label", `Switch to ${nextTheme} mode`);
+    button.setAttribute("title", `Switch to ${nextTheme} mode`);
   };
 
   const handleSystemChange = (event) => {

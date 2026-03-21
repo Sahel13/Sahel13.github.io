@@ -66,7 +66,7 @@ class TensorCopyAsync:
 
 For the ~__call__~ method, we first calculate the size of the tile based on how many elements we want a single thread to move. Since a single copy instruction can move 32, 64, or 128 bits, here we choose 128, which corresponds to 128 // 16 = 8 elements per thread.
 
-#+begin_src python -i
+#+begin_src python
     @cute.jit
     def __call__(self, mSrc: cute.Tensor, mDst: cute.Tensor):
         copy_bits = 128
@@ -86,7 +86,7 @@ Here, each thread will copy ~vector_elems~ (which is 8) elements which are laid 
 
 The next order of business is to define the copy operations we want. We first want to copy data from ~src~ to a staging tile in SMEM, then from that tile back to ~dst~ on GMEM. In CuTe, we specify the copy instruction by constructing a [[https://docs.nvidia.com/cutlass/latest/media/docs/pythonDSL/cute_dsl_api/cute.html#cutlass.cute.CopyAtom][~CopyAtom~]], which is a Python class that holds information related to the instruction, such as which copy operation to use and the data type of the elements to be copied. Here we define the two copy atoms: ~atom_async_copy~ is for the GMEM to SMEM copy, whereas ~atom_store~ is for the reverse.
 
-#+begin_src python -i
+#+begin_src python
         atom_async_copy = cute.make_copy_atom(
             cute.nvgpu.cpasync.CopyG2SOp(),  # Asynchronous GMEM -> SMEM copy operation
             mSrc.element_type,
@@ -101,7 +101,7 @@ The next order of business is to define the copy operations we want. We first wa
 
 The rest of the code defines a thread-value layout for the tiles, and divides the source and destination tensors according to the layout with ~cute.zipped_divide~. Note the use of ~cute.make_tiled_copy_tv~ to create tiled versions of the copy instructions we defined earlier.
 
-#+begin_src python -i
+#+begin_src python
         thr_layout = cute.make_layout(
             (self._tile_m, threads_per_row), stride=(threads_per_row, 1)
         )
@@ -118,7 +118,7 @@ The rest of the code defines a thread-value layout for the tiles, and divides th
 
 We finally launch the kernel with one tile assigned to one thread block. We use ~cute.ceil_div~ to calculate how many tiles we need to cover the entire matrix.
 
-#+begin_src python -i
+#+begin_src python
         tiles_mn = cute.ceil_div(mSrc.shape, (self._tile_m, tile_n))
         self.kernel(
             gSrc,
@@ -136,7 +136,7 @@ We finally launch the kernel with one tile assigned to one thread block. We use 
 
 For the kernel itself, we start by accessing the source and destination tiles assigned to this thread block.
 
-#+begin_src python -i
+#+begin_src python
     @cute.kernel
     def kernel(
         self,
@@ -155,14 +155,14 @@ For the kernel itself, we start by accessing the source and destination tiles as
 
 This is followed by allocating memory in SMEM, which we will use for staging.
 
-#+begin_src python -i
+#+begin_src python
         smem = cutlass.utils.SmemAllocator()
         sSrc = smem.allocate_tensor(gSrc.element_type, sSrc_layout, 16)
 #+end_src
 
 We now need to create copy instructions for the elements of the tile that only the current thread is responsible for. We do this in CuTe using the following snippet (the function names are self-explanatory):
 
-#+begin_src python -i
+#+begin_src python
         thr_copy_load = tiled_copy_load.get_slice(tidx)
         tSgSrc = thr_copy_load.partition_S(blkSrc)
         tSsSrc = thr_copy_load.partition_D(sSrc)
@@ -171,7 +171,7 @@ We now need to create copy instructions for the elements of the tile that only t
 
 When using ~cute.copy~ with an asynchronous copy instruction, we also have to use the following code to instruct the GPU to execute it.
 
-#+begin_src python -i
+#+begin_src python
         cute.arch.cp_async_commit_group()  # Submit this thread's queued operations
         cute.arch.cp_async_wait_group(0)  # Wait until this thread's operations are done
         self.cta_sync_barrier.arrive_and_wait()  # Sync between all threads in the thread block
@@ -179,7 +179,7 @@ When using ~cute.copy~ with an asynchronous copy instruction, we also have to us
 
 We finally copy data from the SMEM tensor to ~dst~.
 
-#+begin_src python -i
+#+begin_src python
         thr_copy_store = tiled_copy_store.get_slice(tidx)
         tSsStore = thr_copy_store.partition_S(sSrc)
         tSgDst = thr_copy_store.partition_D(blkDst)
