@@ -36,45 +36,45 @@ html[data-theme="light"] {
 
 html[data-theme="dark"] {
   color-scheme: dark;
-  --page-background: #14111d;
-  --text-color: #f5f0ff;
-  --muted-text: #bfb2d7;
-  --link-color: #d6b8ff;
-  --link-hover-background: #2b2140;
-  --surface-background: #1c1628;
-  --surface-border: #5e4a7a;
+  --page-background: #090d12;
+  --text-color: #c9d0d8;
+  --muted-text: #8b949f;
+  --link-color: #af96de;
+  --link-hover-background: #121920;
+  --surface-background: #0d1319;
+  --surface-border: #252e37;
   --tag-background: #241c34;
   --tag-border: #5b4974;
-  --inline-code-background: #1e182a;
-  --inline-code-border: #4f4165;
-  --code-background: #181321;
-  --code-border: #4f4165;
-  --button-background: #251d35;
-  --button-hover-background: #322649;
-  --button-text: #f5f0ff;
-  --focus-ring: #d6b8ff;
+  --inline-code-background: #0e141b;
+  --inline-code-border: #252e37;
+  --code-background: #0c1218;
+  --code-border: #252e37;
+  --button-background: #10171e;
+  --button-hover-background: #172029;
+  --button-text: #d8dee6;
+  --focus-ring: #af96de;
 }
 
 @media (prefers-color-scheme: dark) {
   html:not([data-theme]) {
     color-scheme: dark;
-    --page-background: #14111d;
-    --text-color: #f5f0ff;
-    --muted-text: #bfb2d7;
-    --link-color: #d6b8ff;
-    --link-hover-background: #2b2140;
-    --surface-background: #1c1628;
-    --surface-border: #5e4a7a;
+    --page-background: #090d12;
+    --text-color: #c9d0d8;
+    --muted-text: #8b949f;
+    --link-color: #af96de;
+    --link-hover-background: #121920;
+    --surface-background: #0d1319;
+    --surface-border: #252e37;
     --tag-background: #241c34;
     --tag-border: #5b4974;
-    --inline-code-background: #1e182a;
-    --inline-code-border: #4f4165;
-    --code-background: #181321;
-    --code-border: #4f4165;
-    --button-background: #251d35;
-    --button-hover-background: #322649;
-    --button-text: #f5f0ff;
-    --focus-ring: #d6b8ff;
+    --inline-code-background: #0e141b;
+    --inline-code-border: #252e37;
+    --code-background: #0c1218;
+    --code-border: #252e37;
+    --button-background: #10171e;
+    --button-hover-background: #172029;
+    --button-text: #d8dee6;
+    --focus-ring: #af96de;
   }
 }
 
