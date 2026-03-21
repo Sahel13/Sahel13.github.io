@@ -91,7 +91,7 @@ body {
   color: var(--text-color);
   max-width: 80rem;
   margin: 0 auto;
-  padding: 3rem 3rem 5rem;
+  padding: 3rem 3rem 3.25rem;
 }
 
 html,
@@ -106,7 +106,8 @@ blockquote,
 .theme-toggle,
 div.sourceCode,
 :not(pre) > code,
-figure figcaption {
+figure figcaption,
+.site-footer {
   transition-property: color, background-color, border-color, outline-color, text-decoration-color, box-shadow;
   transition-duration: var(--theme-transition-duration);
   transition-timing-function: var(--theme-transition-easing);
@@ -331,6 +332,19 @@ header {
   }
 }
 
+.site-footer {
+  border-top: 1px solid color-mix(in srgb, var(--text-color) 22%, transparent);
+  color: var(--muted-text);
+  font-size: 1.8rem;
+  margin-top: 4rem;
+  padding: 1.1rem 0 0;
+  text-align: right;
+
+  a {
+    color: inherit;
+  }
+}
+
 .theme-toggle {
   display: none;
   position: relative;
@@ -411,7 +425,8 @@ html[data-js="enabled"] .theme-toggle {
   .theme-toggle,
   div.sourceCode,
   :not(pre) > code,
-  figure figcaption {
+  figure figcaption,
+  .site-footer {
     transition-duration: 0ms;
   }
 }
@@ -445,7 +460,7 @@ pre.sourceCode {
 
 @media (max-width: 600px) {
   body {
-    padding: 2.4rem 2rem 4rem;
+    padding: 2.4rem 2rem 2.8rem;
   }
 
   header {
