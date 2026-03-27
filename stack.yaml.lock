@@ -5,12 +5,12 @@
 
 packages:
 - completed:
-    hackage: hakyll-4.16.6.0@sha256:47a996f05ee8a7ebde34b487efc00dba640c95a355e964d3884aa1337023df70,10336
+    hackage: hakyll-4.16.7.1@sha256:bc998c79cef868ccaf90d1642119dfc7868dc64d4afd0b838f988f89be55b7a0,10415
     pantry-tree:
-      sha256: 943269512d65525f8cbc93ca44e6b12b43d60c975fe8d46994620c644a20d29e
-      size: 9414
+      sha256: deef462f93d0fa6978b45ad50cc501d83a63efb25e09709908a0df89c42b2491
+      size: 9486
   original:
-    hackage: hakyll-4.16.6.0
+    hackage: hakyll-4.16.7.1
 snapshots:
 - completed:
     sha256: 0964f3e2c04e21abf42e271490e6974bc923aac2f2fd595fcb53ad0c237dbed1
