@@ -1,5 +1,5 @@
 - 2026-03: Our paper [Maximin robust Bayesian experimental
-  design](https://arxiv.org/pdf/2603.14094v1) is now out on ArXiv. We propose a
+  design](https://arxiv.org/pdf/2603.14094v1) is now out on arXiv. We propose a
   worst-case decision-making rule for dealing with misspecified models in
   Bayesian experimental design.
 - 2026-01: We released a new JAX library for inference in state-space models
