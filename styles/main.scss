@@ -1,6 +1,8 @@
-$base-font-size: 2.2rem;
+$base-font-size: 2.4rem;
+$mobile-base-font-size: 2.2rem;
 $line-height: 1.4;
 $serif: 'EB Garamond', serif;
+$sans: 'IBM Plex Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
 // Gwern dark mode palette adapted from:
 // https://github.com/gwern/gwern.net/blob/master/css/colors-dark-GENERATED.css
@@ -150,10 +152,7 @@ strong {
 a {
   display: inline;
   outline: none;
-  text-decoration-line: underline;
-  text-decoration-thickness: 0.08em;
-  text-underline-offset: 0.14em;
-  text-decoration-color: color-mix(in srgb, currentColor 70%, transparent);
+  text-decoration: none;
   border-radius: 0.2rem;
   transition: background-color 150ms ease-in-out, color 150ms ease-in-out, text-decoration-color 150ms ease-in-out;
 
@@ -165,12 +164,13 @@ a {
   &:hover,
   &:active {
     background: var(--link-hover-background);
-    text-decoration-color: currentColor;
   }
 }
 
 header nav a,
 .post-tags a {
+  font-family: $sans;
+  font-size: 2.1rem;
   text-decoration: none;
 }
 
@@ -235,7 +235,7 @@ article {
 }
 
 .post-item {
-  margin-top: 2rem;
+  margin-top: 3.2rem;
 }
 
 .post-item-meta {
@@ -247,6 +247,7 @@ article {
 }
 
 .post-date {
+  font-family: $sans;
   color: var(--muted-text);
   font-size: 2rem;
   margin-top: 1.5rem;
@@ -256,8 +257,16 @@ article {
   margin: 0;
 }
 
+.post-title {
+  font-size: 1.14 * $base-font-size;
+  font-weight: normal;
+  line-height: 1.18;
+  margin-top: 0.35rem;
+}
+
 .post-description {
-  margin-top: 0;
+  color: var(--muted-text);
+  margin-top: 0.65rem;
 }
 
 .post-meta {
@@ -308,11 +317,13 @@ article {
 }
 
 .post-subheading {
+  font-family: $sans;
   font-size: 1.1 * $base-font-size;
   color: var(--muted-text);
 }
 
 .tag-page-subheading {
+  font-family: $sans;
   color: var(--muted-text);
 }
 
@@ -333,6 +344,7 @@ header {
 }
 
 .site-footer {
+  font-family: $sans;
   border-top: 1px solid color-mix(in srgb, var(--text-color) 22%, transparent);
   color: var(--muted-text);
   font-size: 1.8rem;
@@ -359,7 +371,7 @@ header {
   background-color: var(--button-background);
   color: var(--button-text);
   cursor: pointer;
-  font: inherit;
+  font-family: $sans;
   font-size: 1.8rem;
   line-height: 1.1;
   transition: background-color 150ms ease-in-out, border-color 150ms ease-in-out, color 150ms ease-in-out;
@@ -460,6 +472,7 @@ pre.sourceCode {
 
 @media (max-width: 600px) {
   body {
+    font-size: $mobile-base-font-size;
     padding: 2.4rem 2rem 2.8rem;
   }
 
@@ -507,6 +520,7 @@ figure {
   }
 
   figcaption {
+    font-family: $sans;
     padding: 1rem 0 2rem 0;
     text-align: center;
     color: var(--muted-text);

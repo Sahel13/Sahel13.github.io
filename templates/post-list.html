@@ -1,9 +1,10 @@
 $for(posts)$
 <div class="post-item">
-  <div class="post-item-meta"><p class="post-date">$date$</p>$if(tags)$<div class="post-tags post-item-tags">$tags$</div>$endif$</div>
-  <p class="post-description">
-    <span class="post-title"><a href="$url$">$title$</a></span> &mdash;
-    $description$
-  </p>
+<div class="post-item-meta">
+<p class="post-date">$date$</p>
+$if(tags)$<div class="post-tags post-item-tags">$tags$</div>$endif$
+</div>
+<h3 class="post-title"><a href="$url$">$title$</a></h3>
+<p class="post-description">$description$</p>
 </div>
 $endfor$
