@@ -37,3 +37,7 @@ $partial("templates/post-list.html")$
 $for(recentNews)$
 - **$date$**: $body$
 $endfor$
+
+<p class="all-articles-link">
+  <a href="/all-news.html">All news</a>
+</p>

@@ -85,7 +85,7 @@ main = hakyllWith myConfig $ do
     compile $ do
       -- Load the latest 3 posts to show on the homepage.
       posts <- fmap (take 3) . recentFirst =<< loadAll "posts/*"
-      newsEntries <- loadNewsEntries "news.md" 3
+      newsEntries <- loadNewsEntries "news.md" 5
       newsItems <- mapM makeItem newsEntries
       let newsCtx = listField "recentNews" newsEntryContext (return newsItems)
           postListCtx = postListContext postPageCtx posts
@@ -102,6 +102,19 @@ main = hakyllWith myConfig $ do
       posts <- recentFirst =<< loadAll "posts/*"
       let postListCtx = postListContext postPageCtx posts
           ctx = postListCtx <> defaultContext
+      getResourceBody
+        >>= applyAsTemplate ctx
+        >>= renderPandoc
+        >>= loadAndApplyTemplate "templates/default.html" defaultContext
+        >>= relativizeUrls
+
+  match "all-news.md" $ do
+    route $ setExtension "html"
+    compile $ do
+      newsEntries <- loadNewsEntries "news.md" maxBound
+      newsItems <- mapM makeItem newsEntries
+      let newsCtx = listField "news" newsEntryContext (return newsItems)
+          ctx = newsCtx <> defaultContext
       getResourceBody
         >>= applyAsTemplate ctx
         >>= renderPandoc
