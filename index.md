@@ -8,12 +8,15 @@ description: Academic portfolio website of Sahel Iqbal.
   <h1>Sahel Iqbal</h1>
 </div>
 
-I'm Sahel Iqbal, a third-year PhD student at Aalto University, Finland, where I
-work with [Simo Särkkä](https://users.aalto.fi/~ssarkka/). My main
-research focus is on developing accurate and efficient Monte Carlo algorithms
-for reinforcement learning and Bayesian experimental design (BED). Recently, I
-have also developed an interest in how similar algorithms can be used for
-inference-time alignment of diffusion and [large language models](posts/steering-llms-with-smc.html).
+I'm a postdoctoral researcher at the Department of Statistics at the University
+of Oxford where I work with [Tom
+Rainforth](https://www.stats.ox.ac.uk/people/tom-rainforth). I recently
+completed my PhD student at Aalto University, Finland, where I worked with [Simo
+Särkkä](https://users.aalto.fi/~ssarkka/). My main research focus is on
+developing accurate and efficient Monte Carlo algorithms for reinforcement
+learning and Bayesian experimental design (BED). Recently, I have also developed
+an interest in how similar algorithms can be used for inference-time alignment
+of diffusion and [large language models](posts/steering-llms-with-smc.html).
 
 For details regarding my research, see my [Google
 Scholar](https://scholar.google.com/citations?user=KP7mJUgAAAAJ&hl=en) profile.
