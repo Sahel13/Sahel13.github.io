@@ -10,19 +10,21 @@ description: Academic portfolio website of Sahel Iqbal.
 
 I'm a postdoctoral researcher at the Department of Statistics at the University
 of Oxford where I work with [Tom
-Rainforth](https://www.stats.ox.ac.uk/people/tom-rainforth). I recently
-completed my PhD student at Aalto University, Finland, where I worked with [Simo
-Särkkä](https://users.aalto.fi/~ssarkka/). My main research focus is on
-developing accurate and efficient Monte Carlo algorithms for reinforcement
-learning and Bayesian experimental design (BED). Recently, I have also developed
-an interest in how similar algorithms can be used for inference-time alignment
-of diffusion and [large language models](posts/steering-llms-with-smc.html).
+Rainforth](https://www.stats.ox.ac.uk/people/tom-rainforth). My main area of
+research is sequential decision problems under uncertainty, falling mainly into
+the two categories of reinforcement learning and Bayesian experimental design. I
+also have an interest in how Monte Carlo algorithms can be used for
+inference-time alignment of diffusion and [large language
+models](posts/steering-llms-with-smc.html).
 
 For details regarding my research, see my [Google
 Scholar](https://scholar.google.com/citations?user=KP7mJUgAAAAJ&hl=en) profile.
 I can be contacted on [X](https://x.com/sahel_iqbal) and at my email
-sahel[dot]iqbal[at]aalto[dot]fi.
+[firstname].[lastname]@stats.ox.ac.uk.
 
+Previously, I completed my PhD with [Simo
+Särkkä](https://users.aalto.fi/~ssarkka/) at Aalto University, Finland, and
+before that, I studied physics at [NISER](https://www.niser.ac.in/), India.
 Outside work, my time is mostly taken up by reading, lifting weights, and
 writing JAX code. The projects that I'm actively working on are available on
 [GitHub](https://github.com/Sahel13).
