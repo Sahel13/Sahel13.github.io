@@ -1,4 +1,4 @@
-$base-font-size: 2.4rem;
+$base-font-size: 2.2rem;
 $mobile-base-font-size: 2.2rem;
 $line-height: 1.4;
 $serif: 'EB Garamond', serif;
@@ -82,7 +82,7 @@ body {
   line-height: $line-height;
   background-color: var(--page-background);
   color: var(--text-color);
-  max-width: 80rem;
+  max-width: 70rem;
   margin: 0 auto;
   padding: 3rem 3rem 3.25rem;
 }
@@ -224,7 +224,7 @@ blockquote {
 
 article {
   h1 {
-    font-size: 2.0 * $base-font-size;
+    font-size: 1.8 * $base-font-size;
     font-weight: normal;
     margin-top: 4.0rem;
     margin-bottom: 2.5rem;
@@ -235,7 +235,7 @@ article {
 }
 
 .post-item {
-  margin-top: 3.2rem;
+  margin-top: 2.0rem;
 }
 
 .post-item-meta {
@@ -249,7 +249,7 @@ article {
 .post-date {
   font-family: $sans;
   color: var(--muted-text);
-  font-size: 2rem;
+  font-size: 0.8 * $base-font-size;
   margin-top: 1.5rem;
 }
 
@@ -258,7 +258,7 @@ article {
 }
 
 .post-title {
-  font-size: 1.14 * $base-font-size;
+  font-size: 1.1 * $base-font-size;
   font-weight: normal;
   line-height: 1.18;
   margin-top: 0.35rem;

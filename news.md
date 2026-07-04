@@ -1,3 +1,4 @@
+- 2026-05: Defended my PhD and joined the University of Oxford as a postdoc.
 - 2026-05: Our paper [Online Bayesian experimental design for partially observed
 dynamical systems](https://arxiv.org/pdf/2511.04403) has been accepted to ICML 2026.
 - 2026-03: Our paper [Maximin robust Bayesian experimental

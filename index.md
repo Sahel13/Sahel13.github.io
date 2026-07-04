@@ -30,14 +30,6 @@ Outside work, my time is mostly taken up by reading, lifting weights, and
 writing JAX code. The projects that I'm actively working on are available on
 [GitHub](https://github.com/Sahel13).
 
-## Recent Posts
-
-$partial("templates/post-list.html")$
-
-<p class="all-articles-link">
-  <a href="/blog.html">All articles</a>
-</p>
-
 ## Recent News
 
 $for(recentNews)$
@@ -46,4 +38,12 @@ $endfor$
 
 <p class="all-articles-link">
   <a href="/all-news.html">All news</a>
+</p>
+
+## Recent Posts
+
+$partial("templates/post-list.html")$
+
+<p class="all-articles-link">
+  <a href="/blog.html">All articles</a>
 </p>
