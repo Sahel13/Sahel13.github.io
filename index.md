@@ -4,7 +4,7 @@ description: Academic portfolio website of Sahel Iqbal.
 ---
 
 <div class="profile">
-  <img alt="Profile picture." src="images/profile-pic.png" />
+  <img alt="Profile picture." src="images/profile_picture.png" />
   <h1>Sahel Iqbal</h1>
 </div>
 

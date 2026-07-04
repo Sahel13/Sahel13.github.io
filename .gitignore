@@ -2,3 +2,4 @@ _cache/
 .stack-work/
 _site/
 .codex
+.DS_STORE
