@@ -190,6 +190,6 @@ That's it! On profiling this kernel with [[https://docs.nvidia.com/nsight-comput
 
 ** Parting thoughts
 
-The full code is available [[https://github.com/Sahel13/cute-kernels][here]]. I tried experimenting with different tile sizes and number of threads, but couldn't 87% is the most I could achieve. If you have ideas on how to improve the throughput even more, please send me an email or open a GitHub issue!
+The full code is available [[https://github.com/Sahel13/cute-kernels][here]]. I tried experimenting with different tile sizes and number of threads, but 87% is the most I could achieve. If you have ideas on how to improve the throughput even more, please send me an email or open a GitHub issue!
 
 Next up is a GEMM kernel for the Ampere generation (following the example [[https://github.com/NVIDIA/cutlass/blob/main/examples/python/CuTeDSL/ampere/sgemm.py][here]]).
