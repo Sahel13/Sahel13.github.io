@@ -21,9 +21,9 @@ import Text.Pandoc.Highlighting (Style, highlightingStyles, pygments, styleToCss
 import Text.Pandoc.Options (WriterOptions (..))
 import Text.Pandoc.Walk (walk, walkM)
 
--- Build the generated site into a disposable output directory.
+-- Build the generated site into the directory used by GitHub Pages.
 myConfig :: Configuration
-myConfig = defaultConfiguration {destinationDirectory = "_site"}
+myConfig = defaultConfiguration {destinationDirectory = "docs"}
 
 main :: IO ()
 main = hakyllWith myConfig $ do
