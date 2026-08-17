@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <title>Sahel Iqbal · Blog</title>
-    <link href="https://sahel13.github.io//atom.xml" rel="self" />
-    <link href="https://sahel13.github.io/" />
-    <id>https://sahel13.github.io//atom.xml</id>
+    <link href="https://saheliqbal.com//atom.xml" rel="self" />
+    <link href="https://saheliqbal.com/" />
+    <id>https://saheliqbal.com//atom.xml</id>
     <author>
         <name>Sahel Iqbal</name>
         
@@ -13,8 +13,8 @@
     <updated>2026-03-20T00:00:00Z</updated>
     <entry>
     <title>Asynchronous Data Copies in CuTe DSL</title>
-    <link href="https://sahel13.github.io//posts/asynchronous-copy-cute-dsl.html" />
-    <id>https://sahel13.github.io//posts/asynchronous-copy-cute-dsl.html</id>
+    <link href="https://saheliqbal.com//posts/asynchronous-copy-cute-dsl.html" />
+    <id>https://saheliqbal.com//posts/asynchronous-copy-cute-dsl.html</id>
     <published>2026-03-20T00:00:00Z</published>
     <updated>2026-03-20T00:00:00Z</updated>
     <summary type="html"><![CDATA[<article>
@@ -164,8 +164,8 @@
 </entry>
 <entry>
     <title>Steering Language Models with Sequential Monte Carlo</title>
-    <link href="https://sahel13.github.io//posts/steering-llms-with-smc.html" />
-    <id>https://sahel13.github.io//posts/steering-llms-with-smc.html</id>
+    <link href="https://saheliqbal.com//posts/steering-llms-with-smc.html" />
+    <id>https://saheliqbal.com//posts/steering-llms-with-smc.html</id>
     <published>2025-10-09T00:00:00Z</published>
     <updated>2025-10-09T00:00:00Z</updated>
     <summary type="html"><![CDATA[<article>
@@ -284,8 +284,8 @@ Ziegler, D. M., Stiennon, N., Wu, J., Brown, T. B., Radford, A., Amodei, D., Chr
 </entry>
 <entry>
     <title>Using LaTeX Snippets in Markdown Files in Neovim</title>
-    <link href="https://sahel13.github.io//posts/latex-in-markdown-vim.html" />
-    <id>https://sahel13.github.io//posts/latex-in-markdown-vim.html</id>
+    <link href="https://saheliqbal.com//posts/latex-in-markdown-vim.html" />
+    <id>https://saheliqbal.com//posts/latex-in-markdown-vim.html</id>
     <published>2025-09-24T00:00:00Z</published>
     <updated>2025-09-24T00:00:00Z</updated>
     <summary type="html"><![CDATA[<article>
@@ -389,8 +389,8 @@ full Neovim configuration
 </entry>
 <entry>
     <title>Expected Information as Expected Utility</title>
-    <link href="https://sahel13.github.io//posts/expected-information-as-expected-utility.html" />
-    <id>https://sahel13.github.io//posts/expected-information-as-expected-utility.html</id>
+    <link href="https://saheliqbal.com//posts/expected-information-as-expected-utility.html" />
+    <id>https://saheliqbal.com//posts/expected-information-as-expected-utility.html</id>
     <published>2025-06-08T00:00:00Z</published>
     <updated>2025-06-08T00:00:00Z</updated>
     <summary type="html"><![CDATA[<article>
