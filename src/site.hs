@@ -89,11 +89,11 @@ main = hakyllWith myConfig $ do
       newsItems <- mapM makeItem newsEntries
       let newsCtx = listField "recentNews" newsEntryContext (return newsItems)
           postListCtx = postListContext postPageCtx posts
-          ctx = newsCtx <> postListCtx <> defaultContext
+          ctx = newsCtx <> postListCtx <> siteContext
       getResourceBody
         >>= applyAsTemplate ctx
         >>= renderPandoc
-        >>= loadAndApplyTemplate "templates/default.html" defaultContext
+        >>= loadAndApplyTemplate "templates/default.html" siteContext
         >>= relativizeUrls
 
   match "blog.md" $ do
@@ -101,11 +101,11 @@ main = hakyllWith myConfig $ do
     compile $ do
       posts <- recentFirst =<< loadAll "posts/*"
       let postListCtx = postListContext postPageCtx posts
-          ctx = postListCtx <> defaultContext
+          ctx = postListCtx <> siteContext
       getResourceBody
         >>= applyAsTemplate ctx
         >>= renderPandoc
-        >>= loadAndApplyTemplate "templates/default.html" defaultContext
+        >>= loadAndApplyTemplate "templates/default.html" siteContext
         >>= relativizeUrls
 
   match "all-news.md" $ do
@@ -114,11 +114,11 @@ main = hakyllWith myConfig $ do
       newsEntries <- loadNewsEntries "news.md" maxBound
       newsItems <- mapM makeItem newsEntries
       let newsCtx = listField "news" newsEntryContext (return newsItems)
-          ctx = newsCtx <> defaultContext
+          ctx = newsCtx <> siteContext
       getResourceBody
         >>= applyAsTemplate ctx
         >>= renderPandoc
-        >>= loadAndApplyTemplate "templates/default.html" defaultContext
+        >>= loadAndApplyTemplate "templates/default.html" siteContext
         >>= relativizeUrls
 
   tagsRules tags $ \tag pattern -> do
@@ -130,7 +130,7 @@ main = hakyllWith myConfig $ do
               <> constField "tagTitle" ("#" <> tag)
               <> constField "description" ("Posts tagged " <> tag <> ".")
               <> postListContext postPageCtx posts
-              <> defaultContext
+              <> siteContext
       makeItem ""
         >>= loadAndApplyTemplate "templates/tag.html" ctx
         >>= loadAndApplyTemplate "templates/default.html" ctx
@@ -147,7 +147,19 @@ postContext :: Tags -> Context String
 postContext tags =
   dateField "date" "%Y-%m-%d"
     <> tagsFieldWith getTags (simpleRenderLink . ("#" <>)) (mconcat . intersperse " ") "tags" tags
-    <> defaultContext
+    <> siteContext
+
+siteContext :: Context String
+siteContext = canonicalUrlField <> defaultContext
+
+canonicalUrlField :: Context String
+canonicalUrlField = field "canonicalUrl" $ \item -> do
+  route <- getRoute $ itemIdentifier item
+  let path = case route of
+        Just "index.html" -> ""
+        Just value -> value
+        Nothing -> ""
+  pure $ "https://saheliqbal.com/" <> path
 
 postListContext :: Context String -> [Item String] -> Context String
 postListContext itemCtx posts = listField "posts" itemCtx (return posts)
