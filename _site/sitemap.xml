@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <url>
+    <loc>https://saheliqbal.com/</loc>
+  </url>
+
+  <url>
+    <loc>https://saheliqbal.com/blog</loc>
+  </url>
+
+  <url>
+    <loc>https://saheliqbal.com/all-news</loc>
+  </url>
+
+  <url>
+    <loc>https://saheliqbal.com/posts/asynchronous-copy-cute-dsl</loc>
+  </url>
+
+  <url>
+    <loc>https://saheliqbal.com/posts/expected-information-as-expected-utility</loc>
+  </url>
+
+  <url>
+    <loc>https://saheliqbal.com/posts/latex-in-markdown-vim</loc>
+  </url>
+
+  <url>
+    <loc>https://saheliqbal.com/posts/steering-llms-with-smc</loc>
+  </url>
+
+  <url>
+    <loc>https://saheliqbal.com/tags/bayesian-experimental-design</loc>
+  </url>
+
+  <url>
+    <loc>https://saheliqbal.com/tags/latex</loc>
+  </url>
+
+  <url>
+    <loc>https://saheliqbal.com/tags/machine-learning</loc>
+  </url>
+
+  <url>
+    <loc>https://saheliqbal.com/tags/neovim</loc>
+  </url>
+
+  <url>
+    <loc>https://saheliqbal.com/tags/programming</loc>
+  </url>
+
+  <url>
+    <loc>https://saheliqbal.com/tags/sequential-monte-carlo</loc>
+  </url>
+
+</urlset>

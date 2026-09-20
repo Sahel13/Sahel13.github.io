@@ -7,7 +7,7 @@
 {-# LANGUAGE ViewPatterns #-}
 
 import Control.Monad (forM_, (<=<))
-import Data.List (find, foldl', intersperse)
+import Data.List (find, foldl', intersperse, isSuffixOf)
 import Data.Text (Text)
 import qualified Data.Text as T
 import qualified Data.Text.IO as T
@@ -143,6 +143,19 @@ main = hakyllWith myConfig $ do
           loadAllSnapshots "posts/*" "content"
       renderAtom myFeedConfiguration (bodyField "description" <> postPageCtx) posts
 
+  create ["sitemap.xml"] $ do
+    route idRoute
+    compile $ do
+      postIdents <- getMatches "posts/*"
+      postPaths <- mapM canonicalPathFor postIdents
+      let tagPaths = map (("tags/" <>) . fst) (tagsMap tags)
+          staticPaths = ["", "blog", "all-news"]
+          urls = map ("https://saheliqbal.com/" <>) (staticPaths ++ postPaths ++ tagPaths)
+      urlItems <- mapM makeItem urls
+      let sitemapCtx = listField "pages" (field "loc" (pure . itemBody)) (pure urlItems)
+      makeItem ("" :: String)
+        >>= loadAndApplyTemplate "templates/sitemap.xml" sitemapCtx
+
 postContext :: Tags -> Context String
 postContext tags =
   dateField "date" "%Y-%m-%d"
@@ -154,12 +167,26 @@ siteContext = canonicalUrlField <> defaultContext
 
 canonicalUrlField :: Context String
 canonicalUrlField = field "canonicalUrl" $ \item -> do
-  route <- getRoute $ itemIdentifier item
-  let path = case route of
-        Just "index.html" -> ""
-        Just value -> value
-        Nothing -> ""
+  path <- canonicalPathFor $ itemIdentifier item
   pure $ "https://saheliqbal.com/" <> path
+
+-- Cloudflare Pages (which serves saheliqbal.com) always redirects "/foo.html"
+-- to "/foo", so the canonical URLs and sitemap need to point at the
+-- extensionless path Cloudflare actually serves, not the routed .html file.
+canonicalPathFor :: Identifier -> Compiler FilePath
+canonicalPathFor ident = do
+  route <- getRoute ident
+  pure $ case route of
+    Just "index.html" -> ""
+    Just value -> dropHtmlSuffix value
+    Nothing -> ""
+
+dropHtmlSuffix :: FilePath -> FilePath
+dropHtmlSuffix value
+  | htmlSuffix `isSuffixOf` value = take (length value - length htmlSuffix) value
+  | otherwise = value
+  where
+    htmlSuffix = ".html" :: FilePath
 
 postListContext :: Context String -> [Item String] -> Context String
 postListContext itemCtx posts = listField "posts" itemCtx (return posts)
