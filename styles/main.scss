@@ -526,3 +526,29 @@ figure {
     color: var(--muted-text);
   }
 }
+
+table {
+  margin: 1.8rem auto 2.5rem auto;
+  border-collapse: collapse;
+  border-top: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+
+  caption {
+    caption-side: top;
+    text-align: left;
+    color: var(--muted-text);
+    padding: 0 0 1rem 0;
+  }
+
+  th,
+  td {
+    padding: 0.4rem 1rem;
+    vertical-align: top;
+    text-align: left;
+  }
+
+  thead th {
+    border-bottom: 1px solid currentColor;
+    font-weight: bold;
+  }
+}

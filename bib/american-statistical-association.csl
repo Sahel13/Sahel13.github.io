@@ -161,7 +161,7 @@
         <text macro="author-short"/>
         <text macro="issued-year"/>
       </group>
-      <text macro="citation-locator" prefix=","/>
+      <text macro="citation-locator" prefix=", "/>
     </layout>
   </citation>
   <bibliography hanging-indent="true" entry-spacing="0">

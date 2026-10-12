@@ -1,0 +1,195 @@
+---
+title: Measures of Uncertainty are Decision Problems in Disguise
+description: Specifying a reasonable measure of uncertainty turns out to be the same thing as specifying a decision problem. I trace this idea through DeGroot, Lindley, Bernardo and some recent work, and note where it breaks down.
+date: 2026-10-12
+tags: bayesian-experimental-design
+---
+
+While working on my latest paper on designing experiments for external decision
+makers (which should be up on arXiv soon), I went down a rabbit hole in the
+literature on measures of uncertainty. Along the way I came across some
+interesting old papers that I had either never seen or never bothered to read.
+Together, they point to one idea: that specifying a reasonable measure of
+uncertainty is the same thing as specifying a decision problem. This was not
+obvious to me beforehand, and I suspect it is not obvious to most people who use
+these measures. This post is my attempt to document this idea for my future
+self, and for the odd reader with an interest in decision theory or uncertainty
+quantification.
+
+** Decision Theory 101
+
+I will start with a brief review of the setup of Bayesian decision theory
+[cite:@savage1954foundations]. Let \(z \in \mathcal{Z}\) denote the hidden state
+of the world, and let \(a \in \mathcal{A}\) denote an action available to us.
+The state is assumed to carry all information that is relevant for the decision,
+so that each pair of a state and an action leads to a definite consequence for
+the decision maker (us). The table below gives an example of a decision problem.
+
+#+CAPTION: Savage's classic example of a decision problem about making an omelette, which illustrates acts, states, and consequences [cite:@savage1954foundations, Table 1]. We start with five good eggs already broken into a bowl, and we need to decide what to do with a sixth egg, which may or may not be rotten.
+#+NAME: tab:omelette
+| Action            | State: Good                                   | State: Rotten                             |
+|-------------------+-----------------------------------------------+-------------------------------------------|
+| break into bowl   | six-egg omelette                              | no omelette, and five good eggs destroyed |
+| break into saucer | six-egg omelette, and a saucer to wash        | five-egg omelette, and a saucer to wash   |
+| throw away        | five-egg omelette, and one good egg destroyed | five-egg omelette                         |
+
+Savage's theorem says that if our preferences between actions satisfy a handful
+of axioms, which amount to requiring that we are consistent in what we prefer,
+then there exist a probability distribution \(\mu\) over \(\mathcal{Z}\) and a
+loss function \(\ell: \mathcal{A} \times \mathcal{Z} \to \mathbb{R}\) such that
+we prefer one action to another exactly when it has lower expected loss. The
+distribution \(\mu\) represents our beliefs about the hidden state, the loss
+represents our preferences over consequences, and the rational action is the one
+that minimises expected loss:
+\[
+    a^{\star} \in \operatorname*{arg\,min}_{a \in \mathcal{A}} \mathbb{E}_{z \sim \mu}[\ell(a, z)].
+\]
+
+** Measures of Uncertainty
+
+Let us now see how a decision problem naturally gives rise to a measure of
+uncertainty. For a fixed decision problem and a belief \(\mu\) over
+\(\mathcal{Z}\), consider the quantity
+\[
+    \mathbb{H}_{\ell}[\mu] \coloneqq \inf_{a \in \mathcal{A}} \mathbb{E}_{z \sim \mu}[\ell(a, z)] - \mathbb{E}_{z \sim \mu}\left[\inf_{a \in \mathcal{A}} \ell(a, z)\right].
+\]
+The first term is the best expected loss we can achieve without knowing the
+state, and the second is the expected loss we would achieve if we were told the
+state before acting. The difference is therefore the expected cost of our
+uncertainty about \(z\). [cite/t:@raiffa1961applied] called it the expected
+value of perfect information (EVPI): it is the most we should be willing to pay
+an oracle who will reveal \(z\). Note that, once the decision problem is fixed,
+\(\mathbb{H}_{\ell}\) depends on the belief \(\mu\) alone; it takes a
+distribution and returns a number that says how much our ignorance of the state
+costs us.
+
+If the loss is normalised so that the best action in every state has zero loss,
+i.e. \(\inf_{a} \ell(a, z) = 0\) for all \(z\), the second term vanishes and the
+EVPI reduces to the Bayes risk,
+\[
+    \mathbb{H}_{\ell}[\mu] = \inf_{a \in \mathcal{A}} \mathbb{E}_{z \sim \mu}[\ell(a, z)].
+\]
+This is what [cite/t:@grunwald2004game] call a generalised entropy. The Bayes
+risk makes sense even when the normalisation does not, for instance when
+\(\inf_{a} \ell(a, z) = -\infty\), and I will use it as the definition of
+\(\mathbb{H}_{\ell}\) from here on.
+
+The property that makes \(\mathbb{H}_{\ell}\) interesting is the following.
+Suppose we hold a belief \(\mu\), observe data \(Y\), and update to the
+posterior \(\mu_{Y}\). Averaged over the data, the posterior returns the prior:
+\(\mathbb{E}_{Y}[\mu_{Y}] = \mu\), where the expectation is under the marginal
+distribution of \(Y\) implied by \(\mu\) and the likelihood. Under mild
+conditions (all of which hold if \(\ell\) is bounded below, for
+example),[fn:integrability] we then have
+\[
+\begin{aligned}
+    \mathbb{E}_{Y}\bigl[\mathbb{H}_{\ell}[\mu_{Y}]\bigr]
+    & = \mathbb{E}_{Y}\left[\inf_{a \in \mathcal{A}} \mathbb{E}_{z \sim \mu_{Y}}[\ell(a, z)]\right] \\
+    & \leq \inf_{a \in \mathcal{A}} \mathbb{E}_{Y} \left[\mathbb{E}_{z \sim \mu_{Y}}[\ell(a, z)]\right] \\
+    & = \inf_{a \in \mathcal{A}} \mathbb{E}_{z \sim \mu}[\ell(a, z)]
+      = \mathbb{H}_{\ell}[\mu].
+\end{aligned}
+\]
+In words: on average, new information cannot increase H.  In terms of the EVPI,
+the oracle is worth less, on average, once we have seen some data, because part
+of its job has already been done.
+
+** The Equivalence
+
+This property is so natural that it is tempting to turn the argument around and
+take it as the /definition/ of a measure of uncertainty: a function of the
+belief that cannot increase on average under any experiment. This is close to
+what [cite/t:@degroot1962uncertainty] did. Generalising
+[cite/t:@lindley1956measure], who had proved the property for Shannon entropy,
+DeGroot allowed any non-negative function of the belief to serve as an
+uncertainty measure, required that no experiment increase it on average, and
+characterised the functions that satisfy this property. Common measures such as
+Shannon entropy and variance qualify, and, as we have just seen, so does the
+generalised entropy of every decision problem.[fn:normalisations]
+
+The definition is also more than a sanity check, because it pins down the class
+of measures almost completely. First, it forces concavity. Take any two beliefs
+\(\mu_{0}\) and \(\mu_{1}\), let \(\mu = \lambda \mu_{1} + (1 - \lambda)
+\mu_{0}\), and consider the experiment that reports \(Y = 1\) with probability
+\(\lambda\) and \(Y = 0\) otherwise, with posteriors \(\mu_{1}\) and
+\(\mu_{0}\). Then the defining property reads \(\mathbb{H}[\mu] \geq \lambda
+\mathbb{H}[\mu_{1}] + (1 - \lambda) \mathbb{H}[\mu_{0}]\), which is concavity.
+Second, on a finite state space the converse holds: a concave function of the
+belief satisfies the defining property, by Jensen's inequality applied to the
+random posterior, since a belief on \(n\) states is a point in the simplex in
+\(\mathbb{R}^{n}\) [cite:@degroot1962uncertainty, Theorem 2.1]. Third, and this
+is the step that closes the loop, every non-negative concave function on the
+simplex is the Bayes risk of some decision problem
+[cite:@degroot1962uncertainty; @bect2026uncertainty].
+Put together: on a finite state space, a measure of uncertainty, a concave
+function of the belief, and the Bayes risk of a decision problem are the same
+thing.
+
+DeGroot appears to have been the first to draw this conclusion, writing on page
+408 that "the distinction sometimes made, as in [cite/t:@lindley1956measure],
+between decision problems and problems in which the experimenter simply wants to
+gain knowledge may not be very sharp." He refers to Lindley there because
+Lindley had proposed the expected information gain (EIG), the expected reduction
+in Shannon entropy from prior to posterior, precisely as a criterion for the
+experimenter who has no action in mind and simply wants to "gain knowledge about
+the state of nature" [cite:@lindley1956measure, page 987]. The explicit decision
+problem behind the EIG was later written down by [cite/t:@bernardo1979expected]:
+take \(\mathcal{A}\) to be the set of distributions over \(\mathcal{Z}\) and
+\(\ell(a, z) = -\log a(z)\), so that the generalised entropy is Shannon entropy
+and the EIG is the expected reduction in Bayes risk. Bernardo went further and
+argued that the log loss is the right loss for a pure inference problem,
+which is the reason the EIG is still the default in Bayesian experimental
+design.
+
+** Caveats and Open Problems
+
+- The defining property says that \(\mathbb{H}\) satisfies Jensen's inequality
+  for random posteriors, and on a finite space this is equivalent to concavity.
+  On infinite spaces concavity remains necessary but is no longer sufficient,
+  and [cite/t:@bect2026uncertainty, Theorem 5] provide a counterexample.
+- All Bayes risks define valid uncertainty measures, but it is not known whether all
+  valid uncertainty measures can be expressed as Bayes risks for some decision
+  problem. This is Open Problem 2 in [cite/t:@bect2026uncertainty]. On finite
+  spaces the answer is yes [cite:@bect2026uncertainty, Theorem 6].
+
+** Two Literatures
+
+Something I noticed while researching this post is that the problem of measuring
+uncertainty and information is studied in both the statistics and economics
+literature, and the two have almost completely diverged from each other. Both
+[cite/t:@frankel2019quantifying] and [cite/t:@bect2026uncertainty] study
+uncertainty measures, and arrive at essentially the same definition, but the
+only reference they have in common is the review of proper scoring rules by
+[cite/t:@gneiting2007strictly]. More broadly, the one shared ancestor of the two
+literatures seems to be [cite/t:@blackwell1951comparison;
+@blackwell1953equivalent]. While working on my paper, I would have missed the
+extremely relevant work of [cite/t:@kamenica2011bayesian] had Claude not found
+it while I was searching for related work, and the statistics literature is
+oblivious to it.
+
+** Conclusion
+
+The practical upshot is a question worth asking whenever an uncertainty measure
+appears in a method: which decision problem is it the Bayes risk of, and is that
+the problem we actually care about? For entropy the answer is the log loss over
+predictive distributions, which is a good choice for pure inference and a
+strange one for almost anything else. The measure is never neutral; it always
+encodes a loss, whether or not we wrote one down.
+
+** Acknowledgements
+
+It was conversations with Tom while we worked on the paper mentioned above that
+got me started down this path.
+
+[fn:integrability] Exchanging the infimum and the expectation requires
+\(\mathbb{H}_{\ell}[\mu_{Y}]\) to be quasi-integrable in \(Y\)
+[cite:@bect2026uncertainty].
+Exchanging the two expectations is the Fubini--Tonelli theorem: it holds whenever
+\(\ell(a, \cdot)\) is bounded below (Tonelli), or more generally whenever
+\(\mathbb{E}_{Y}\bigl[\mathbb{E}_{z \sim \mu_{Y}}|\ell(a, z)|\bigr] < \infty\)
+for every \(a \in \mathcal{A}\) (Fubini).
+
+[fn:normalisations] Two further conditions are usually added, that the measure
+is non-negative and that it vanishes on beliefs concentrated on a single state.
+While these are nice to have, they can both fail for sensible measures on
+continuous spaces, differential entropy being the standard example.
