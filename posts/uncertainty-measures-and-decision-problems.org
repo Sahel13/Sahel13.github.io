@@ -5,16 +5,15 @@ date: 2026-10-12
 tags: bayesian-experimental-design
 ---
 
-While working on my latest paper on designing experiments for external decision
-makers (which should be up on arXiv soon), I went down a rabbit hole in the
-literature on measures of uncertainty. Along the way I came across some
-interesting old papers that I had either never seen or never bothered to read.
-Together, they point to one idea: that specifying a reasonable measure of
-uncertainty is the same thing as specifying a decision problem. This was not
-obvious to me beforehand, and I suspect it is not obvious to most people who use
-these measures. This post is my attempt to document this idea for my future
-self, and for the odd reader with an interest in decision theory or uncertainty
-quantification.
+While working on my latest paper on [[https://arxiv.org/abs/2610.22032][designing experiments for external decision
+makers]], I went down a rabbit hole in the literature on measures of uncertainty.
+Along the way I came across some interesting old papers that I had either never
+seen or never bothered to read. Together, they point to one idea: that
+specifying a reasonable measure of uncertainty is the same thing as specifying a
+decision problem. This was not obvious to me beforehand, and I suspect it is not
+obvious to most people who use these measures. This post is my attempt to
+document this idea for my future self, and for the odd reader with an interest
+in decision theory or uncertainty quantification.
 
 ** Decision Theory 101
 

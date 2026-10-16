@@ -100,16 +100,14 @@
         </div>
         
     </div>
-    <p>While working on my latest paper on designing experiments for external decision
-makers (which should be up on arXiv soon), I went down a rabbit hole in the
-literature on measures of uncertainty. Along the way I came across some
-interesting old papers that I had either never seen or never bothered to read.
-Together, they point to one idea: that specifying a reasonable measure of
-uncertainty is the same thing as specifying a decision problem. This was not
-obvious to me beforehand, and I suspect it is not obvious to most people who use
-these measures. This post is my attempt to document this idea for my future
-self, and for the odd reader with an interest in decision theory or uncertainty
-quantification.</p>
+    <p>While working on my latest paper on <a href="https://arxiv.org/abs/2610.22032">designing experiments for external decision makers</a>, I went down a rabbit hole in the literature on measures of uncertainty.
+Along the way I came across some interesting old papers that I had either never
+seen or never bothered to read. Together, they point to one idea: that
+specifying a reasonable measure of uncertainty is the same thing as specifying a
+decision problem. This was not obvious to me beforehand, and I suspect it is not
+obvious to most people who use these measures. This post is my attempt to
+document this idea for my future self, and for the odd reader with an interest
+in decision theory or uncertainty quantification.</p>
 <h2 id="decision-theory-101">Decision Theory 101</h2>
 <p>I will start with a brief review of the setup of Bayesian decision theory
 <span class="citation" data-cites="savage1954foundations">(<a href="#ref-savage1954foundations" role="doc-biblioref">Savage 1954</a>)</span>. Let <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>z</mi><mo>∈</mo><mi mathvariant="script">Z</mi></mrow><annotation encoding="application/x-tex">z \in \mathcal{Z}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathcal" style="margin-right:0.07944em;">Z</span></span></span></span> denote the hidden state
