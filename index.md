@@ -10,13 +10,11 @@ description: Academic portfolio website of Sahel Iqbal.
 
 I'm a postdoctoral researcher at the Department of Statistics at the University
 of Oxford where I work with [Tom
-Rainforth](https://www.stats.ox.ac.uk/people/tom-rainforth). My research develops
-methods for reliable decision-making and inference in machine learning systems,
-especially in settings where models must reason under uncertainty and make
-effective use of computation. I work across reinforcement learning, Bayesian
-inference, experimental design, and Monte Carlo methods, with recent interests in
-inference-time techniques for steering diffusion models and [large language
-models](posts/steering-llms-with-smc.html).
+Rainforth](https://www.stats.ox.ac.uk/people/tom-rainforth). My research
+develops methods for reliable decision-making and inference in machine learning
+systems, especially in settings where models must reason under uncertainty and
+make effective use of computation. I work across reinforcement learning,
+Bayesian inference, experimental design, and Monte Carlo methods.
 
 For details regarding my research, see my [Google
 Scholar](https://scholar.google.com/citations?user=KP7mJUgAAAAJ&hl=en) profile.
