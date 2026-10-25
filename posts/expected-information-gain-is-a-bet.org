@@ -1,0 +1,211 @@
+---
+title: Expected Information Gain is a Bet Against Uninformative Data
+description: The expected information gain is Kelly's optimal growth rate for a bettor who knows the latent parameters and bets against the hypothesis that the data are uninformative about them.
+date: 2026-10-26
+tags: bayesian-experimental-design
+---
+
+The expected information gain [cite:EIG, @lindley1956measure], the expected
+reduction in Shannon (or differential) entropy from the prior to the posterior,
+is a popular objective in Bayesian experimental design. It has several useful
+interpretations: it is the mutual information between the data and the latent
+parameters of interest \(z\), and it is the expected reduction in Bayes risk for
+a decision problem under the logarithmic score (see my [[./expected-information-as-expected-utility.html][earlier post on expected
+information as expected utility]]). This post is about yet another
+interpretation: the EIG is the optimal growth rate of a bettor who bets against
+the null hypothesis that the data are uninformative about \(z\).
+
+I begin by reviewing Kelly's result on betting with side information and its
+connection to the more general testing-by-betting paradigm, and then show that
+the EIG is exactly Kelly's growth rate when the side information is \(z\).
+
+** A Brief Review of Kelly Betting
+
+[cite/t:@kelly1956new] considered a gambler with access to side information.
+Suppose that in each round a pair \((Y_{i}, Z_{i})\) is drawn i.i.d. from a
+joint distribution \(q(y, z)\), with \(Y_{i}\) taking values in a finite set
+\(\mathcal{Y}\). The bookmaker knows only the marginal law \(q(y)\) of the
+outcome and offers fair odds accordingly: a unit stake on outcome \(y\) returns
+\(1/q(y)\) if \(Y_{i} = y\) and nothing otherwise. We, however, receive
+\(Z_{i}\) over a "private wire" before each round. We start with an initial
+wealth \(V_{0}\), and in each round we observe \(Z_{i} = z\) and stake a
+fraction \(b(y \mid z)\) of our current wealth on each \(y \in \mathcal{Y}\).
+Kelly asked which strategy \(b\) maximises the logarithmic rate of
+growth[fn:log] of our wealth,
+\[
+    G(b) = \lim_{N \to \infty} \frac{1}{N} \log \frac{V_{N}}{V_{0}},
+\]
+where \(V_{N}\) is our wealth after round \(N\). Throughout, \(\log\) is the
+natural logarithm; Kelly used base 2, which only changes the units from nats to
+bits. By the law of large numbers, with probability one we have
+\[
+    G(b) = \mathbb{E}\left[\log \frac{b(Y \mid Z)}{q(Y)}\right]
+    = \mathbb{E}_{q(z)}\Big[\operatorname{KL}[q(\cdot \mid z) \,\Vert\, q]
+      - \operatorname{KL}[q(\cdot \mid z) \,\Vert\, b(\cdot \mid z)]\Big].
+\]
+Since the KL divergence is non-negative and zero only when its arguments
+coincide, Kelly's result follows immediately: the optimal strategy and the
+resulting optimal rate of growth are
+\[
+    b^{\star}(y \mid z) = q(y \mid z),
+    \qquad
+    G(b^{\star})
+    = \mathbb{E}_{q(z)}\left[\operatorname{KL}[q(\cdot \mid z) \,\Vert\, q]\right]
+    = I(Y; Z).
+\]
+Here \(I(Y; Z)\) is the mutual information between \(Y\) and \(Z\), defined by
+the middle expression: the average KL divergence of the conditional law of
+\(Y\) given \(Z\) from its marginal law, or equivalently
+\(\operatorname{KL}[q(y, z) \,\Vert\, q(y) \, q(z)]\). In words, we should bet
+on each outcome in proportion to our belief in it given what the wire tells us,
+and our wealth then grows at a rate equal to the mutual information between the
+wire and the outcome. If the wire carries no
+information (\(Z\) independent of \(Y\)), the best we can do is break even.
+
+** Testing by Betting
+
+Kelly's formulation extends naturally to statistical testing, an idea known as
+/testing by betting/ [cite:@shafer2019game; @shafer2021testing]. To see how,
+suppose the wire always carries the same message \(z\), so that the outcomes
+are i.i.d. draws from \(q(\cdot \mid z)\), while the bookmaker still prices
+them at \(q\). Betting against this bookmaker is then a test of the null
+hypothesis \(H_{0}\colon Y_{i} \sim q\) against the alternative
+\(H_{1}\colon Y_{i} \sim q(\cdot \mid z)\): the bookmaker believes the null,
+and we measure the evidence against it by how much money we make.
+
+If we follow Kelly's strategy and bet \(b^{\star}(\cdot \mid z) = q(\cdot \mid
+z)\), then in round \(s\) our wealth is multiplied by
+\[
+    E_{s} = \frac{q(y_{s} \mid z)}{q(y_{s})},
+\]
+so starting from \(V_{0} = 1\), our wealth after \(t\) rounds is
+\[
+    M_{t} = \prod_{s=1}^{t} E_{s}
+    = \prod_{s=1}^{t} \frac{q(y_{s} \mid z)}{q(y_{s})},
+\]
+which is simply the likelihood ratio of the data. Since the odds are fair under
+the null, we cannot expect to make money if the null is true:
+\[
+    \mathbb{E}_{q}[E_{s}] = 1
+    \qquad \text{and} \qquad
+    \mathbb{E}_{q}[M_{t+1} \mid Y_{1:t}] = M_{t}.
+\]
+That is, \(M_{t}\) is a non-negative martingale under \(H_{0}\) with
+\(M_{0} = 1\), known as a /test martingale/. By Ville's inequality, for any
+\(\alpha \in (0, 1)\),
+\[
+    \mathbb{P}_{q}\left(\exists\, t \colon M_{t} \geq 1/\alpha\right) \leq \alpha,
+\]
+so rejecting \(H_{0}\) as soon as our wealth reaches \(1/\alpha\) is a
+level-\(\alpha\) test.
+
+Each \(E_{s}\) is an /e-variable/, a non-negative statistic with expectation at
+most \(1\) under the null, and \(M_{t}\) is an /e-process/, a non-negative
+process satisfying \(\mathbb{E}_{q}[M_{\tau}] \leq 1\) for every stopping time
+\(\tau\) [cite:@ramdas2025hypothesis]. Kelly's theorem tells us which bet to
+make when the alternative is true. If \(Y_{i} \sim q(\cdot \mid z)\), then
+\(\frac{1}{t} \log M_{t} \to \operatorname{KL}[q(\cdot \mid z) \,\Vert\, q]\)
+almost surely, so our wealth grows exponentially and we eventually reject the
+null. Moreover, no other e-variable for this null grows faster.
+[cite/t:@grunwald2024safe] call this the growth-rate optimal (GRO) criterion.
+For a simple null and a simple alternative, the GRO e-variable is exactly the
+likelihood ratio \(q(\cdot \mid z)/q\), and its growth rate is
+\(\operatorname{KL}[q(\cdot \mid z) \,\Vert\, q]\), the term inside the
+expectation in Kelly's growth rate.
+
+** The Experimental Design Setting
+
+Let \(z\) be a latent variable with prior \(p(z)\). At each step
+\(t \in \{1, \dots, T\}\), the experimenter chooses a design \(x_{t}\) according
+to a policy, \(x_{t} \sim \pi(\cdot \mid h_{t-1})\), and observes an outcome
+\(y_{t} \sim p(\cdot \mid z, x_{t}, h_{t-1})\), where \(h_{t} = ((x_{1}, y_{1}),
+\dots, (x_{t}, y_{t}))\) is the history so far and \(h_{0} = \emptyset\). Since
+the policy depends only on the history and not on \(z\), its terms cancel in
+Bayes' rule, and the posterior is
+\[
+    p(z \mid h_{t}) \propto p(z) \prod_{s=1}^{t} p(y_{s} \mid z, x_{s}, h_{s-1}).
+\]
+The posterior predictive of the next outcome is
+\[
+    p(y_{t} \mid x_{t}, h_{t-1})
+    = \int p(y_{t} \mid z, x_{t}, h_{t-1}) \, p(z \mid h_{t-1}) \, \mathrm{d} z.
+\]
+
+Now, for each \(z\), let
+\[
+    E_{t}(z) \coloneqq \frac{p(z \mid h_{t})}{p(z)} \tag{1}
+\]
+be the ratio of posterior to prior, so that \(E_{0}(z) = 1\). This ratio has
+an interpretation as the wealth process of an oracle who knows the true
+parameter \(z\). To see this, we apply Bayes' rule repeatedly and factorise the
+above ratio as
+\[
+    E_{t}(z) = \prod_{s=1}^{t}
+    \frac{p(y_{s} \mid z, x_{s}, h_{s-1})}{p(y_{s} \mid x_{s}, h_{s-1})}. \tag{2}
+\]
+Each factor in the above equation has a betting interpretation. Before \(y_{s}\)
+is revealed, a bookmaker who believes the model but does not know \(z\) offers
+fair odds according to the posterior predictive \(p(\cdot \mid x_{s},
+h_{s-1})\). A bettor who knows \(z\) stakes her whole wealth according to
+\(p(\cdot \mid z, x_{s}, h_{s-1})\), which, by the same argument as Kelly's
+theorem applied to a single round, is the growth-optimal bet given her
+information. Her wealth is then multiplied by the \(s\)-th factor in (2), so
+\(E_{t}(z)\) is her wealth after \(t\) design steps, whichever policy chose the
+designs.
+
+** The Uninformative Null and the EIG
+
+We can now treat one entire experiment as a single round of Kelly's game.
+Nature draws \(z \sim p(z)\), which the oracle receives over the private wire,
+and the outcome she bets on is the whole history \(h_{T}\). The bookmaker, who
+does not know \(z\), prices this outcome at its marginal law \(p(h_{T})\) under
+the policy \(\pi\); equivalently, by (2), the bookmaker quotes the posterior
+predictive odds one design step at a time, and the oracle places her bet one
+step at a time too.
+
+Fix \(z\). The natural null hypothesis is that /the experiment is
+uninformative/, that is, the data carry no trace of \(z\):
+\(H_{0}\colon h_{T} \sim p(h_{T})\), against the alternative
+\(H_{1}\colon h_{T} \sim p(h_{T} \mid z)\). As before, the policy's terms
+cancel in the likelihood ratio,
+\[
+    \frac{p(h_{T} \mid z)}{p(h_{T})}
+    = \frac{p(z \mid h_{T})}{p(z)}
+    = E_{T}(z), \tag{3}
+\]
+so the oracle's wealth is exactly the likelihood ratio of the alternative
+against the null, just as \(M_{t}\) was in the testing-by-betting section, and
+hence the GRO e-variable for this test. It is straightforward to show that,
+under the null, \((E_{t}(z))_{0 \leq t \leq T}\) is a non-negative martingale
+with \(E_{0}(z) = 1\), so the oracle's wealth is a test martingale for every
+\(z\). In betting terms, the bookmaker's odds are fair under the null, so even
+the oracle cannot expect to make money if \(z\) leaves no trace in the data.
+The optimal growth rate of the test is
+\(\operatorname{KL}[p(h_{T} \mid z) \,\Vert\, p(h_{T})]\).
+
+Averaging over the message on the wire, Kelly's theorem gives the oracle's
+growth rate across repeated experiments as
+\[
+    \mathbb{E}_{p(z)}\left[\operatorname{KL}[p(h_{T} \mid z) \,\Vert\, p(h_{T})]\right]
+    = I(z; h_{T})
+    = \operatorname{EIG}_{T}(\pi). \tag{4}
+\]
+That is, the EIG is exactly Kelly's growth rate for a gambler whose private
+wire carries \(z\), betting on the outcome of the experiment against a
+bookmaker who believes it is uninformative about \(z\).
+
+** Conclusion
+
+Seen this way, experimental design is the problem of choosing which game to
+play. The bookmaker always offers fair odds under the model, so no experiment
+lets a bettor without knowledge of \(z\) make money. What the policy \(\pi\)
+controls is how much the private wire is worth: an informative experiment is
+one in which knowing \(z\) lets the oracle beat the bookmaker quickly, and the
+EIG-optimal policy is the one that makes this edge as large as possible. In
+testing terms, maximising the EIG chooses the experiment that, on average over
+the prior, gathers evidence fastest against the hypothesis that we learn
+nothing about \(z\).
+
+[fn:log] For a discussion of why we use the logarithmic rate of growth rather
+than some other measure of growth, see Section 2.2.1 in
+[cite/t:@shafer2021testing].

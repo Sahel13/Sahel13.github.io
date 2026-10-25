@@ -16,7 +16,7 @@ import Hakyll
 import News (loadNewsEntries, newsEntryContext)
 import System.Process (runInteractiveCommand)
 import Text.Pandoc.Builder (setMeta)
-import Text.Pandoc.Definition (Block (..), Inline (..), MathType (..), Pandoc)
+import Text.Pandoc.Definition (Block (..), Citation (..), CitationMode (..), Inline (..), MathType (..), Pandoc)
 import Text.Pandoc.Highlighting (Style, highlightingStyles, pygments, styleToCss)
 import Text.Pandoc.Options (WriterOptions (..))
 import Text.Pandoc.Walk (walk, walkM)
@@ -329,8 +329,23 @@ processBib pandoc = do
   bib <- load @Biblio "bib/bibliography.bib"
   -- Link citations.
   p <- withItemBody (pure . setMeta "link-citations" True) pandoc
-  fmap insertRefHeading <$> processPandocBiblio csl bib p
+  fmap (insertRefHeading . linkInTextCitations) <$> processPandocBiblio csl bib p
   where
+    -- citeproc only links the year of an in-text citation, i.e.
+    -- "Author (<a>Year</a>)"; extend the link to the whole citation.
+    linkInTextCitations :: Pandoc -> Pandoc
+    linkInTextCitations = walk \case
+      Cite cs@[Citation {citationMode = AuthorInText}] inls
+        | (before, Link attr linkInls target : after) <- break isLink inls,
+          not (any isLink after) ->
+            Cite cs [Link attr (before <> linkInls <> after) target]
+      inl -> inl
+
+    isLink :: Inline -> Bool
+    isLink = \case
+      Link {} -> True
+      _ -> False
+
     -- Insert a heading for the citations.
     insertRefHeading :: Pandoc -> Pandoc
     insertRefHeading = walk $ concatMap \case
