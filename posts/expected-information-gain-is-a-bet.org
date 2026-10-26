@@ -1,6 +1,6 @@
 ---
 title: Expected Information Gain is a Bet Against Uninformative Data
-description: The expected information gain is Kelly's optimal growth rate for a bettor who knows the latent parameters and bets against the hypothesis that the data are uninformative about them.
+description: The expected information gain is Kelly's optimal growth rate for a bettor who is told the latent parameters before each experiment and bets against the hypothesis that the data are uninformative about them.
 date: 2026-10-26
 tags: bayesian-experimental-design
 ---

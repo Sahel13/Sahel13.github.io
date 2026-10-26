@@ -1,6 +1,6 @@
 ---
 title: Asynchronous Data Copies in CuTe DSL
-description: Part 1 of a multi-part series on GPU kernel development with NVIDIA's CuTe domain-specific language.
+description: Learning NVIDIA's CuTe domain-specific language by writing a kernel that copies a matrix through shared memory using asynchronous copies.
 date: 2026-03-20
 tags: programming
 ---
