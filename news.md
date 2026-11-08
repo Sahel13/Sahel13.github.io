@@ -1,3 +1,7 @@
+- 2026-11: We released a new PyTorch library for Bayesian experimental design
+  called `TestBED`! Check out the
+  [code](https://github.com/testbed-benchmark/testbed) and the
+  [paper](https://arxiv.org/abs/2611.06633).
 - 2026-09: Our paper [Maximin robust Bayesian experimental
   design](https://arxiv.org/pdf/2603.14094v2) has been accepted to NeurIPS 2026.
   We propose a worst-case decision-making rule for dealing with misspecified
@@ -6,7 +10,7 @@
 - 2026-05: Our paper [Online Bayesian experimental design for partially observed
   dynamical systems](https://arxiv.org/pdf/2511.04403) has been accepted to ICML 2026.
 - 2026-01: We released a new JAX library for inference in state-space models
-  called `cuthbert`! Checkout the
+  called `cuthbert`! Check out the
   [tweet](https://x.com/sahel_iqbal/status/2017210852642803839?s=20) and the
   [code](https://github.com/state-space-models/cuthbert).
 - 2025-09: Our paper [Sequential Monte Carlo for Policy Optimization in
